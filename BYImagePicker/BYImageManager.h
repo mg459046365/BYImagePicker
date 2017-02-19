@@ -23,8 +23,6 @@ typedef void(^BYImageLoadProgress)(CGFloat progress, NSError *error, BOOL *stop,
 
 @interface BYImageManager : NSObject
 
-//@property (nonatomic, strong) PHCachingImageManager *cachingImageManager;
-
 + (instancetype)manager;
 - (void)clear;
 

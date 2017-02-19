@@ -20,8 +20,6 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         manager = [[self alloc] init];
-//        manager.cachingImageManager = [[PHCachingImageManager alloc] init];
-        // manager.cachingImageManager.allowsCachingHighQualityImages = YES;
     });
     return manager;
 }

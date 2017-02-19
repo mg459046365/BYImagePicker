@@ -131,7 +131,6 @@
             
         } completion:^(BOOL finished) {
             if (finished) {
-                //移除oldController，但在removeFromParentViewController：方法前不会调用willMoveToParentViewController:nil 方法，所以需要显示调用
                 self.albumController.view.frame = self.view.bounds;
                 [self.albumController didMoveToParentViewController:self];
                 [self.photoController willMoveToParentViewController:nil];
@@ -145,7 +144,6 @@
             
         } completion:^(BOOL finished) {
             if (finished) {
-                //移除oldController，但在removeFromParentViewController：方法前不会调用willMoveToParentViewController:nil 方法，所以需要显示调用
                 [self.photoController didMoveToParentViewController:self];
                 [self.albumController willMoveToParentViewController:nil];
                 [self.albumController removeFromParentViewController];

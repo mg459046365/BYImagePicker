@@ -30,6 +30,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.collectionView];
     [self.view addSubview:self.topView];
     [self.view addSubview:self.bottomView];
@@ -156,6 +157,11 @@
     BYAsset *asset = self.assets[indexPath.item];
     self.currentAsset = asset;
     [self.selectButton setSelected:asset.isSelected];
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+    BYPhotoPreviewCell *tmpCell = (BYPhotoPreviewCell *)cell;
+    [tmpCell resetSubviews];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath

@@ -46,8 +46,16 @@
     [self.scrollView setZoomScale:1.0 animated:NO];
 }
 
+- (void)resetSubviews {
+    [_scrollView setZoomScale:1.0 animated:NO];
+    [self resizeImageView:self.imageView.image];
+}
+
 - (void)resizeImageView:(UIImage *)image
 {
+    if (!image) {
+        return;
+    }
     CGSize size = image.size;
     if (size.height / size.width > self.scrollView.by_height / self.scrollView.by_width) {
         CGFloat multiplier = self.scrollView.by_height / image.size.height;
@@ -66,7 +74,11 @@
 {
     _asset = asset;
     __weak typeof(self) weakSelf = self;
-    [asset fetchImageWidth:self.by_width complete:^(UIImage *image) {
+//    [asset fetchImageWidth:self.by_width complete:^(UIImage *image) {
+//        weakSelf.imageView.image = image;
+//        [weakSelf resizeImageView:image];
+//    }];
+    [asset fetchOriginImageCompletion:^(UIImage *image) {
         weakSelf.imageView.image = image;
         [weakSelf resizeImageView:image];
     }];
@@ -81,7 +93,16 @@
 
 - (void)doubleTap:(UITapGestureRecognizer *)gesture
 {
-    
+    if (_scrollView.zoomScale > 1.0) {
+        _scrollView.contentInset = UIEdgeInsetsZero;
+        [_scrollView setZoomScale:1.0 animated:YES];
+    } else {
+        CGPoint touchPoint = [gesture locationInView:self.imageView];
+        CGFloat newZoomScale = _scrollView.maximumZoomScale;
+        CGFloat xsize = self.frame.size.width / newZoomScale;
+        CGFloat ysize = self.frame.size.height / newZoomScale;
+        [_scrollView zoomToRect:CGRectMake(touchPoint.x - xsize/2, touchPoint.y - ysize/2, xsize, ysize) animated:YES];
+    }
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -90,9 +111,18 @@
 {
     return self.imageView;
 }
+- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view {
+    scrollView.contentInset = UIEdgeInsetsZero;
+}
+
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale {
+}
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView
 {
+    CGFloat offsetX = (_scrollView.by_width > _scrollView.contentSize.width) ? ((_scrollView.by_width - _scrollView.contentSize.width) * 0.5) : 0.0;
+    CGFloat offsetY = (_scrollView.by_height > _scrollView.contentSize.height) ? ((_scrollView.by_height - _scrollView.contentSize.height) * 0.5) : 0.0;
+    self.imageView.center = CGPointMake(_scrollView.contentSize.width * 0.5 + offsetX, _scrollView.contentSize.height * 0.5 + offsetY);
 }
 
 #pragma mark - view
@@ -123,6 +153,7 @@
     if (!_imageView) {
         _imageView = [[UIImageView alloc] init];
         _imageView.clipsToBounds = YES;
+        _imageView.contentMode = UIViewContentModeScaleToFill;
     }
     return _imageView;
 }

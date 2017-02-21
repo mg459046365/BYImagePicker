@@ -11,4 +11,5 @@
 @interface BYPhotoPreviewCell : UICollectionViewCell
 @property (nonatomic, strong) BYAsset *asset;
 @property (nonatomic, copy) void(^singleTapBlock)();
+- (void)resetSubviews;
 @end

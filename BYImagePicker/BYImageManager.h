@@ -36,6 +36,9 @@ typedef void(^BYImageLoadProgress)(CGFloat progress, NSError *error, BOOL *stop,
 /// 返回YES如果得到了授权
 + (BOOL)authorizationStatusAuthorized;
 + (NSInteger)authorizationStatus;
+/// 是否能使用相册
++ (BOOL)canUsePhotoLibrary;
++ (BOOL)canUseCamera;
 
 /// 获得相册/相册数组
 + (BYAlbum *)fetchCameraRollImageAlbum;

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B41343D11E5C4235000E36F4 /* BYPhotoEditController.m in Sources */ = {isa = PBXBuildFile; fileRef = B41343D01E5C4235000E36F4 /* BYPhotoEditController.m */; };
 		B41B09C91E54ACED000AE055 /* BYPhotoPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B41B09C81E54ACED000AE055 /* BYPhotoPreviewController.m */; };
 		B44850491E55753C004441AC /* BYPhotoPreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B44850481E55753C004441AC /* BYPhotoPreviewCell.m */; };
 		B4A4DE9D1E51D68C009DDE54 /* BYImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A4DE9C1E51D68C009DDE54 /* BYImagePickerController.m */; };
@@ -29,6 +30,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B41343CF1E5C4235000E36F4 /* BYPhotoEditController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYPhotoEditController.h; sourceTree = "<group>"; };
+		B41343D01E5C4235000E36F4 /* BYPhotoEditController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYPhotoEditController.m; sourceTree = "<group>"; };
 		B41B09C51E54110B000AE055 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		B41B09C61E54110B000AE055 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		B41B09C71E54ACED000AE055 /* BYPhotoPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYPhotoPreviewController.h; sourceTree = "<group>"; };
@@ -123,6 +126,8 @@
 				B4A4DEA51E51EA64009DDE54 /* BYAlbumPickerController.m */,
 				B41B09C71E54ACED000AE055 /* BYPhotoPreviewController.h */,
 				B41B09C81E54ACED000AE055 /* BYPhotoPreviewController.m */,
+				B41343CF1E5C4235000E36F4 /* BYPhotoEditController.h */,
+				B41343D01E5C4235000E36F4 /* BYPhotoEditController.m */,
 				B44850471E55753C004441AC /* BYPhotoPreviewCell.h */,
 				B44850481E55753C004441AC /* BYPhotoPreviewCell.m */,
 				B4A4DEAA1E51F9B4009DDE54 /* BYAlbumCell.h */,
@@ -226,6 +231,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4A4DEA01E51E8C7009DDE54 /* BYPhotoPickerController.m in Sources */,
+				B41343D11E5C4235000E36F4 /* BYPhotoEditController.m in Sources */,
 				B4DAD7151E503D83003EA8E7 /* BYImageManager.m in Sources */,
 				B4A4DEA61E51EA64009DDE54 /* BYAlbumPickerController.m in Sources */,
 				B4DAD7041E503B37003EA8E7 /* ViewController.m in Sources */,

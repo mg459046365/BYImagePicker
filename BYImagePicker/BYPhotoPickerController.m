@@ -16,7 +16,7 @@
 #import "BYAsset.h"
 
 
-@interface BYPhotoPickerController ()<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface BYPhotoPickerController ()<UICollectionViewDelegate,UICollectionViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, assign) CGFloat cellWidth;
 @property (nonatomic, strong) NSArray *assets;
@@ -100,6 +100,43 @@
     }
 }
 
+
+#pragma mark - UIPickerViewDelegate
+
+// 打开相机拍照
+- (void)takePhoto
+{
+    UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypeCamera;
+    if ([UIImagePickerController isSourceTypeAvailable: sourceType]) {
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        [picker.navigationBar setBarTintColor:RGB(0xf1f1f1)];
+        [picker.navigationBar setTranslucent:NO];
+        [picker.navigationBar setTintColor:RGB(0x666666)];
+        picker.delegate = self;
+        // 设置拍照后的图片可被编辑
+        picker.allowsEditing = NO;
+        picker.sourceType = sourceType;
+        [self presentViewController:picker animated:YES completion:nil];
+    }
+}
+
+// 当选择一张图片后进入这里
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
+    // 当选择的类型是图片
+    if ([type isEqualToString:@"public.image"]) {
+        [picker dismissViewControllerAnimated:YES completion:nil];
+        UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    }
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+
 #pragma mark - UICollectionViewDataSource,UICollectionViewDelegate
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
@@ -144,6 +181,11 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.firstItemIsCamera && indexPath.item == 0) {
+        [self takePhoto];
+        return;
+    }
+    
     BYPhotoPreviewController *controller = [[BYPhotoPreviewController alloc] init];
     controller.assets = self.assets;
     NSInteger index = 0;

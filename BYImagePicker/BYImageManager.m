@@ -54,6 +54,27 @@
     return [PHPhotoLibrary authorizationStatus];
 }
 
+/// 是否能使用相册
++ (BOOL)canUsePhotoLibrary
+{
+    PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
+    if (status == PHAuthorizationStatusRestricted ||
+        status == PHAuthorizationStatusDenied) {
+        //无权限
+        return NO;
+    }
+    return YES;
+}
+
++ (BOOL)canUseCamera
+{
+    AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    if (status == AVAuthorizationStatusAuthorized) {
+        return YES;
+    }
+    return NO;
+}
+
 #pragma mark - Get Album
 ///获得相册/相册数组
 + (BYAlbum *)fetchCameraRollImageAlbum

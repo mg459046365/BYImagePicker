@@ -10,13 +10,18 @@
 #import "BYImagePickerController.h"
 #import "BYPhotoPickerController.h"
 #import "BYAlbumPickerController.h"
+#import "UIView+BYLayout.h"
 #import "BYImageManager.h"
+
 
 @interface BYPickerRootController ()
 @property (nonatomic, strong) BYPhotoPickerController *photoController;
 @property (nonatomic, strong) BYAlbumPickerController *albumController;
 @property (nonatomic, strong) UIViewController *currentController;
 @property (nonatomic, strong) UIButton *rightButton;
+@property (nonatomic, strong) UIView *titleView;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIImageView *titleImageView;
 @end
 
 @implementation BYPickerRootController
@@ -48,11 +53,11 @@
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(didClickedLeftItem:)];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setTitle:@"所有照片" forState:UIControlStateNormal];
+    [button setTitle:@"相册" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [button sizeToFit];
     [button addTarget:self action:@selector(didClickedTitleButton:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.titleView = button;
+    self.navigationItem.titleView = self.titleView;
     
     self.rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.rightButton setTitle:[NSString stringWithFormat:@"0/%@继续",@([BYImageManager manager].maxImagesCount)] forState:UIControlStateNormal];
@@ -123,6 +128,11 @@
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)singleTapTitle:(UITapGestureRecognizer *)gesture
+{
+    [self didClickedTitleButton:nil];
+}
+
 - (void)didClickedTitleButton:(id)sender
 {
     if ([self.currentController isEqual:self.photoController]) {
@@ -136,6 +146,7 @@
                 [self.photoController willMoveToParentViewController:nil];
                 [self.photoController removeFromParentViewController];
                 self.currentController = self.albumController;
+                [self updateTitleView];
             }
         }];
     }else{
@@ -148,8 +159,56 @@
                 [self.albumController willMoveToParentViewController:nil];
                 [self.albumController removeFromParentViewController];
                 self.currentController = self.photoController;
+                [self updateTitleView];
             }
         }];
     }
+}
+
+- (void)updateTitleView
+{
+    NSString *title = nil;
+    if ([self.currentController isEqual:self.photoController]) {
+        title = @"相册";
+    }else{
+        title = @"全部照片";
+    }
+    self.titleLabel.text = title;
+    [self.titleLabel sizeToFit];
+    _titleView.bounds = CGRectMake(0, 0, _titleLabel.by_width + _titleImageView.by_width, MAX(_titleLabel.by_height, _titleImageView.by_height));
+    _titleLabel.by_left = 0.0f;
+    _titleLabel.by_centerY = _titleView.by_height/2;
+    _titleImageView.by_left = _titleLabel.by_right;
+    _titleImageView.by_centerY = _titleView.by_height/2;
+    [self.titleView setNeedsLayout];
+    [self.titleView layoutIfNeeded];
+}
+
+- (UIView *)titleView
+{
+    if (!_titleView) {
+        _titleView = [[UIView alloc] init];
+        
+        _titleLabel = [[UILabel alloc] init];
+        _titleLabel.font = [UIFont systemFontOfSize:17.0f];
+        _titleLabel.textColor = RGB(0x666666);
+        _titleLabel.text = @"相册";
+        [_titleLabel sizeToFit];
+        
+        _titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_next"]];
+        [_titleImageView sizeToFit];
+        
+        _titleView.bounds = CGRectMake(0, 0, _titleLabel.by_width + _titleImageView.by_width, MAX(_titleLabel.by_height, _titleImageView.by_height));
+        _titleLabel.by_left = 0.0f;
+        _titleLabel.by_centerY = _titleView.by_height/2;
+        _titleImageView.by_left = _titleLabel.by_right;
+        _titleImageView.by_centerY = _titleView.by_height/2;
+        [_titleView addSubview:_titleLabel];
+        [_titleView addSubview:_titleImageView];
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapTitle:)];
+        [_titleView addGestureRecognizer:tap];
+    }
+    return _titleView;
 }
 @end

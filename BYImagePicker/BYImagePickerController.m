@@ -11,6 +11,7 @@
 #import "BYAlbumPickerController.h"
 #import "BYPickerRootController.h"
 #import "BYImageManager.h"
+#import "BYDefine.h"
 #import "BYAlbum.h"
 
 @interface BYImagePickerController ()

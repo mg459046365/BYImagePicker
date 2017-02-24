@@ -10,6 +10,15 @@
 #import <Photos/Photos.h>
 #import "BYAsset.h"
 
+typedef NS_ENUM(NSInteger, BYEditType)
+{
+    BYEditTypeCrop = 0,
+    BYEditTypeRotate = 1 << 0,
+    BYEditTypeOther = 1 << 1,
+    BYEditTypeOther1 = 1 << 2,
+    BYEditTypeOther2 = 1 << 3,
+};
+
 @protocol BYImagePickerDelegate;
 @interface BYImagePickerController : UINavigationController
 /// 默认最大可选9张图片

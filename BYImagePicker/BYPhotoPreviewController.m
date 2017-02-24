@@ -11,6 +11,7 @@
 #import "BYPhotoPreviewCell.h"
 #import "UIView+BYLayout.h"
 #import "BYImageManager.h"
+#import "BYDefine.h"
 #import "BYAsset.h"
 
 @interface BYPhotoPreviewController ()<UICollectionViewDelegate,UICollectionViewDataSource>

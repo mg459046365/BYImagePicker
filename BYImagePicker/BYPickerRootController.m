@@ -12,7 +12,7 @@
 #import "BYAlbumPickerController.h"
 #import "UIView+BYLayout.h"
 #import "BYImageManager.h"
-
+#import "BYDefine.h"
 
 @interface BYPickerRootController ()
 @property (nonatomic, strong) BYPhotoPickerController *photoController;

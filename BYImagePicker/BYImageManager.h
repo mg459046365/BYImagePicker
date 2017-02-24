@@ -9,13 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <Photos/Photos.h>
 
-#define iOS8Later ([UIDevice currentDevice].systemVersion.floatValue >= 8.0f)
-#define iOS9Later ([UIDevice currentDevice].systemVersion.floatValue >= 9.0f)
-#define iOS9_1Later ([UIDevice currentDevice].systemVersion.floatValue >= 9.1f)
-///16进制色值
-#define RGB(x) [UIColor colorWithRed:((x & 0xff0000) >> 16)/255.0 green:((x & 0x00ff00) >> 8)/255.0 blue:(x & 0x0000ff)/255.0 alpha:1.0f]
-#define RGBA(x,y) [UIColor colorWithRed:((x & 0xff0000) >> 16)/255.0 green:((x & 0x00ff00) >> 8)/255.0 blue:(x & 0x0000ff)/255.0 alpha:y]
-
 @class BYAlbum,BYAsset;
 typedef void(^BYImageFetchBlock)(UIImage *image,NSDictionary *info,BOOL isDegraded);
 typedef void(^BYAssetsFetchBlock)(NSArray<BYAsset *> *allAssets, NSArray<BYAsset *> *photoAssets, NSArray<BYAsset *> *videoAssets, NSArray<BYAsset *> *audioAssets);

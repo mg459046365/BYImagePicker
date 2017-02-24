@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		B41343D11E5C4235000E36F4 /* BYPhotoEditController.m in Sources */ = {isa = PBXBuildFile; fileRef = B41343D01E5C4235000E36F4 /* BYPhotoEditController.m */; };
+		B41866421E60200100B10D9A /* BYClipCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B418663D1E60200100B10D9A /* BYClipCell.m */; };
+		B41866431E60200100B10D9A /* BYClipListView.m in Sources */ = {isa = PBXBuildFile; fileRef = B418663F1E60200100B10D9A /* BYClipListView.m */; };
+		B41866441E60200100B10D9A /* BYClipView.m in Sources */ = {isa = PBXBuildFile; fileRef = B41866411E60200100B10D9A /* BYClipView.m */; };
 		B41B09C91E54ACED000AE055 /* BYPhotoPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B41B09C81E54ACED000AE055 /* BYPhotoPreviewController.m */; };
 		B44850491E55753C004441AC /* BYPhotoPreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B44850481E55753C004441AC /* BYPhotoPreviewCell.m */; };
 		B4A4DE9D1E51D68C009DDE54 /* BYImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A4DE9C1E51D68C009DDE54 /* BYImagePickerController.m */; };
@@ -32,6 +35,12 @@
 /* Begin PBXFileReference section */
 		B41343CF1E5C4235000E36F4 /* BYPhotoEditController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYPhotoEditController.h; sourceTree = "<group>"; };
 		B41343D01E5C4235000E36F4 /* BYPhotoEditController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYPhotoEditController.m; sourceTree = "<group>"; };
+		B418663C1E60200100B10D9A /* BYClipCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYClipCell.h; sourceTree = "<group>"; };
+		B418663D1E60200100B10D9A /* BYClipCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYClipCell.m; sourceTree = "<group>"; };
+		B418663E1E60200100B10D9A /* BYClipListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYClipListView.h; sourceTree = "<group>"; };
+		B418663F1E60200100B10D9A /* BYClipListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYClipListView.m; sourceTree = "<group>"; };
+		B41866401E60200100B10D9A /* BYClipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYClipView.h; sourceTree = "<group>"; };
+		B41866411E60200100B10D9A /* BYClipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYClipView.m; sourceTree = "<group>"; };
 		B41B09C51E54110B000AE055 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		B41B09C61E54110B000AE055 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		B41B09C71E54ACED000AE055 /* BYPhotoPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYPhotoPreviewController.h; sourceTree = "<group>"; };
@@ -52,6 +61,7 @@
 		B4A4DEB11E51FF4D009DDE54 /* BYAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYAlbum.m; sourceTree = "<group>"; };
 		B4AD1CC11E533C6F00BEA74F /* BYPhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYPhotoCell.h; sourceTree = "<group>"; };
 		B4AD1CC21E533C6F00BEA74F /* BYPhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYPhotoCell.m; sourceTree = "<group>"; };
+		B4D808521E5F1C4500CCCA51 /* BYDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BYDefine.h; sourceTree = "<group>"; };
 		B4DAD6F91E503B37003EA8E7 /* BYImagePicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BYImagePicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4DAD6FD1E503B37003EA8E7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B4DAD6FF1E503B37003EA8E7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -82,6 +92,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B418663B1E60200100B10D9A /* BYClip */ = {
+			isa = PBXGroup;
+			children = (
+				B418663C1E60200100B10D9A /* BYClipCell.h */,
+				B418663D1E60200100B10D9A /* BYClipCell.m */,
+				B418663E1E60200100B10D9A /* BYClipListView.h */,
+				B418663F1E60200100B10D9A /* BYClipListView.m */,
+				B41866401E60200100B10D9A /* BYClipView.h */,
+				B41866411E60200100B10D9A /* BYClipView.m */,
+			);
+			path = BYClip;
+			sourceTree = "<group>";
+		};
 		B4AD1CC41E5342B000BEA74F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +132,7 @@
 		B4DAD6FB1E503B37003EA8E7 /* BYImagePicker */ = {
 			isa = PBXGroup;
 			children = (
+				B418663B1E60200100B10D9A /* BYClip */,
 				B4AD1CC41E5342B000BEA74F /* Resources */,
 				B4DAD7131E503D83003EA8E7 /* BYImageManager.h */,
 				B4DAD7141E503D83003EA8E7 /* BYImageManager.m */,
@@ -116,6 +140,7 @@
 				B4A4DEB11E51FF4D009DDE54 /* BYAlbum.m */,
 				B4DAD7161E5040A3003EA8E7 /* BYAsset.h */,
 				B4DAD7171E5040A3003EA8E7 /* BYAsset.m */,
+				B4D808521E5F1C4500CCCA51 /* BYDefine.h */,
 				B4A4DE9B1E51D68C009DDE54 /* BYImagePickerController.h */,
 				B4A4DE9C1E51D68C009DDE54 /* BYImagePickerController.m */,
 				B4EC16A71E574BA000DD7EAE /* BYPickerRootController.h */,
@@ -240,10 +265,13 @@
 				B4A4DEAC1E51F9B4009DDE54 /* BYAlbumCell.m in Sources */,
 				B44850491E55753C004441AC /* BYPhotoPreviewCell.m in Sources */,
 				B41B09C91E54ACED000AE055 /* BYPhotoPreviewController.m in Sources */,
+				B41866421E60200100B10D9A /* BYClipCell.m in Sources */,
+				B41866441E60200100B10D9A /* BYClipView.m in Sources */,
 				B4EC16A91E574BA000DD7EAE /* BYPickerRootController.m in Sources */,
 				B4DAD7011E503B37003EA8E7 /* AppDelegate.m in Sources */,
 				B4DAD7181E5040A3003EA8E7 /* BYAsset.m in Sources */,
 				B4DAD6FE1E503B37003EA8E7 /* main.m in Sources */,
+				B41866431E60200100B10D9A /* BYClipListView.m in Sources */,
 				B4AD1CC31E533C6F00BEA74F /* BYPhotoCell.m in Sources */,
 				B4A4DEB21E51FF4D009DDE54 /* BYAlbum.m in Sources */,
 			);

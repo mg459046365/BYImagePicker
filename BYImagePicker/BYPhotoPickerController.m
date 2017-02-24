@@ -9,12 +9,13 @@
 #import "BYPhotoPickerController.h"
 #import "BYPhotoPreviewController.h"
 #import "BYImagePickerController.h"
+#import "BYPhotoEditController.h"
 #import "UIView+BYLayout.h"
 #import "BYImageManager.h"
 #import "BYPhotoCell.h"
+#import "BYDefine.h"
 #import "BYAlbum.h"
 #import "BYAsset.h"
-
 
 @interface BYPhotoPickerController ()<UICollectionViewDelegate,UICollectionViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (nonatomic, strong) UICollectionView *collectionView;
@@ -186,15 +187,25 @@
         return;
     }
     
-    BYPhotoPreviewController *controller = [[BYPhotoPreviewController alloc] init];
-    controller.assets = self.assets;
+//    BYPhotoPreviewController *controller = [[BYPhotoPreviewController alloc] init];
+//    controller.assets = self.assets;
+//    NSInteger index = 0;
+//    if (self.firstItemIsCamera) {
+//        index = indexPath.item - 1;
+//    }else{
+//        index = indexPath.item;
+//    }
+//    controller.showIndex = index;
+//    [self.navigationController pushViewController:controller animated:YES];
+    
+    BYPhotoEditController *controller = [[BYPhotoEditController alloc] init];
     NSInteger index = 0;
     if (self.firstItemIsCamera) {
         index = indexPath.item - 1;
     }else{
         index = indexPath.item;
     }
-    controller.showIndex = index;
+    controller.asset = self.assets[index];
     [self.navigationController pushViewController:controller animated:YES];
 }
 

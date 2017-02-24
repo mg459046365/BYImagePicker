@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class BYAsset;
 @interface BYPhotoEditController : UIViewController
-
+@property (nonatomic,strong) BYAsset *asset;
 @end

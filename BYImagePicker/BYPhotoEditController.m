@@ -9,6 +9,7 @@
 #import "BYPhotoEditController.h"
 #import "UIView+BYLayout.h"
 #import "BYClipListView.h"
+#import "BYClipView.h"
 #import "BYDefine.h"
 #import "BYAsset.h"
 
@@ -24,7 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"裁剪";
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor blueColor];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(didClickedCancelItem:)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(didClickedConfirmItem:)];
     
@@ -37,6 +38,13 @@
         weakSelf.imageView.image = image;
         [weakSelf resizeImageView];
     }];
+    self.imageView.userInteractionEnabled = YES;
+    
+    BYClipView *clipView = [[BYClipView alloc] initWithFrame:CGRectMake(80, 80, self.imageView.by_width - 160, self.imageView.by_height - 160)];
+    clipView.widthRate = clipView.by_width;
+    clipView.heightRate = clipView.by_height;
+    clipView.userInteractionEnabled = YES;
+    [self.imageView addSubview:clipView];
 }
 
 - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation

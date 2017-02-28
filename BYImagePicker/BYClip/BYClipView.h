@@ -10,8 +10,6 @@
 
 @interface BYClipView : UIView
 @property (nonatomic, assign) CGRect clippingRect;
-- (id)initWithSuperview:(UIView*)superview frame:(CGRect)frame;
-- (void)setBgColor:(UIColor*)bgColor;
-- (void)setGridColor:(UIColor*)gridColor;
-- (void)clippingRatioDidChange;
+@property (nonatomic, assign) NSInteger widthRate;
+@property (nonatomic, assign) NSInteger heightRate;
 @end

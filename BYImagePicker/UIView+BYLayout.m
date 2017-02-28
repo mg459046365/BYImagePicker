@@ -24,7 +24,7 @@
 
 - (CGFloat)by_left
 {
-    return self.frame.origin.x;
+   return CGRectGetMinX(self.frame);
 }
 
 - (void)setBy_left:(CGFloat)by_left
@@ -36,7 +36,7 @@
 
 - (CGFloat)by_top
 {
-    return self.frame.origin.y;
+    return CGRectGetMinY(self.frame);
 }
 
 - (void)setBy_top:(CGFloat)by_top
@@ -48,7 +48,7 @@
 
 - (CGFloat)by_right
 {
-    return self.frame.origin.x + self.frame.size.width;
+    return CGRectGetMaxX(self.frame);
 }
 
 - (void)setBy_right:(CGFloat)by_right
@@ -60,7 +60,7 @@
 
 - (CGFloat)by_bottom
 {
-    return self.frame.origin.y + self.frame.size.height;
+    return CGRectGetMaxY(self.frame);
 }
 
 - (void)setBy_bottom:(CGFloat)by_bottom
@@ -104,7 +104,7 @@
 
 - (CGFloat)by_width
 {
-   return self.frame.size.width;
+    return CGRectGetWidth(self.frame);
 }
 
 - (void)setBy_width:(CGFloat)by_width
@@ -116,7 +116,7 @@
 
 - (CGFloat)by_height
 {
-   return self.frame.size.height;
+    return CGRectGetHeight(self.frame);
 }
 
 - (void)setBy_height:(CGFloat)by_height

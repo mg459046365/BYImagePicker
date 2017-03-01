@@ -7,9 +7,11 @@
 //
 
 #import "BYPhotoEditController.h"
+#import "BYCropTestController.h"
+#import "UIImage+BYImageCrop.h"
 #import "UIView+BYLayout.h"
 #import "BYClipListView.h"
-#import "BYClipView.h"
+#import "BYClipTopView.h"
 #import "BYDefine.h"
 #import "BYAsset.h"
 
@@ -18,6 +20,7 @@
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIImage *originImage;
 @property (nonatomic, assign) BOOL statusBarHidden;
+@property (nonatomic, strong) BYClipTopView *clipView;
 @end
 
 @implementation BYPhotoEditController
@@ -38,13 +41,8 @@
         weakSelf.imageView.image = image;
         [weakSelf resizeImageView];
     }];
-    self.imageView.userInteractionEnabled = YES;
     
-    BYClipView *clipView = [[BYClipView alloc] initWithFrame:CGRectMake(80, 80, self.imageView.by_width - 160, self.imageView.by_height - 160)];
-    clipView.widthRate = clipView.by_width;
-    clipView.heightRate = clipView.by_height;
-    clipView.userInteractionEnabled = YES;
-    [self.imageView addSubview:clipView];
+    self.imageView.userInteractionEnabled = YES;
 }
 
 - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation
@@ -63,6 +61,37 @@
 
 #pragma mark - Action
 
+- (void)selectedWidthRate:(NSInteger)widthRate heightRate:(NSInteger)heightRate
+{
+    CGSize size = self.imageView.by_size;
+    CGSize tmpSize = size;
+    if (widthRate / heightRate > size.width / size.height) {
+        tmpSize.height = size.width * heightRate / widthRate;
+        if (tmpSize.height > size.height) {
+            tmpSize.height = size.height;
+            tmpSize.width = size.height * widthRate / heightRate;
+        }
+    }else{
+        tmpSize.width = size.height * widthRate / heightRate;
+        if (tmpSize.width > size.width) {
+            tmpSize.width = size.width;
+            tmpSize.height = size.width * heightRate / widthRate;
+        }
+    }
+    
+    CGRect frame = CGRectMake((self.imageView.by_width - tmpSize.width)/2, (self.imageView.by_height - tmpSize.height)/2, tmpSize.width, tmpSize.height);
+    
+    if (self.clipView) {
+        self.clipView.clipRect = frame;
+    }else{
+        self.clipView = [[BYClipTopView alloc] initWithFrame:self.imageView.bounds clipRect:frame];
+        self.clipView.userInteractionEnabled = YES;
+        [self.imageView addSubview:self.clipView];
+    }
+    self.clipView.widthRate = widthRate;
+    self.clipView.heightRate = heightRate;
+}
+
 - (void)didClickedCancelItem:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -70,7 +99,17 @@
 
 - (void)didClickedConfirmItem:(id)sender
 {
+    CGFloat zoomScale = self.imageView.by_width / self.imageView.image.size.width;
+    CGRect rct = self.clipView.clipRect;
+    rct.size.width  /= zoomScale;
+    rct.size.height /= zoomScale;
+    rct.origin.x    /= zoomScale;
+    rct.origin.y    /= zoomScale;
+    UIImage *cropImage = [self.originImage crop:rct];
     
+    BYCropTestController *test = [[BYCropTestController alloc] init];
+    test.image = cropImage;
+    [self.navigationController pushViewController:test animated:YES];
 }
 
 - (void)didClickedTest:(id)sender
@@ -119,6 +158,11 @@
         [_menuView addSubview:topLine];
         
         BYClipListView *listView = [[BYClipListView alloc] initWithFrame:_menuView.bounds];
+        __weak typeof(self) weakSelf = self;
+        listView.selectedClipRate = ^(NSInteger widthRate,NSInteger heightRate)
+        {
+            [weakSelf selectedWidthRate:widthRate heightRate:heightRate];
+        };
         [_menuView addSubview:listView];
     }
     return _menuView;

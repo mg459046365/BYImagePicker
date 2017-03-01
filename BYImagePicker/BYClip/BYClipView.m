@@ -109,6 +109,7 @@ static const CGFloat controlWH = 40.0f;
         center.y = MIN(center.y, self.superview.by_height - self.by_height/2);
         center.y = MAX(center.y, self.by_height/2);
         [self setCenter:center];
+        [self.superview setNeedsDisplay];
     }else if (gesture.state == UIGestureRecognizerStateEnded) {
     }
 }
@@ -135,6 +136,8 @@ static const CGFloat controlWH = 40.0f;
     }else if (gesture.state == UIGestureRecognizerStateEnded || gesture.state == UIGestureRecognizerStateCancelled){
     }
     self.frame = rect;
+    [self setNeedsDisplay];
+    [self.superview setNeedsDisplay];
 }
 
 - (CGRect)calcuTopLeftRectTranslationX:(CGFloat)x translationY:(CGFloat)y

@@ -30,6 +30,7 @@
 - (void)setupView
 {
     self.backgroundColor = RGB(0x323740);
+    self.currentIndex = -1;
     self.cropArray = [NSArray arrayWithObjects:@"1:1",@"2:3",@"3:2",@"3:4",@"4:3",@"9:16",@"16:9", nil];
     [self addSubview:self.collectionView];
     [self.collectionView reloadData];
@@ -60,7 +61,16 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.currentIndex == indexPath.item) {
+        return;
+    }
+    self.currentIndex = indexPath.item;
+    NSString *rateStr = self.cropArray[indexPath.item];
+    NSArray *rateArray = [rateStr componentsSeparatedByString:@":"];
     
+    if (self.selectedClipRate) {
+        self.selectedClipRate([rateArray[0] integerValue],[rateArray[1] integerValue]);
+    }
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath

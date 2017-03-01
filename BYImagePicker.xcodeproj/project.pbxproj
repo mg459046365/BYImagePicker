@@ -13,6 +13,9 @@
 		B41866441E60200100B10D9A /* BYClipView.m in Sources */ = {isa = PBXBuildFile; fileRef = B41866411E60200100B10D9A /* BYClipView.m */; };
 		B41B09C91E54ACED000AE055 /* BYPhotoPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B41B09C81E54ACED000AE055 /* BYPhotoPreviewController.m */; };
 		B44850491E55753C004441AC /* BYPhotoPreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B44850481E55753C004441AC /* BYPhotoPreviewCell.m */; };
+		B484EE961E67177200592995 /* UIImage+BYImageCrop.m in Sources */ = {isa = PBXBuildFile; fileRef = B484EE951E67177200592995 /* UIImage+BYImageCrop.m */; };
+		B484EE991E67186D00592995 /* BYCropTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = B484EE981E67186D00592995 /* BYCropTestController.m */; };
+		B484EE9C1E671D5B00592995 /* BYClipTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = B484EE9B1E671D5B00592995 /* BYClipTopView.m */; };
 		B4A4DE9D1E51D68C009DDE54 /* BYImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A4DE9C1E51D68C009DDE54 /* BYImagePickerController.m */; };
 		B4A4DEA01E51E8C7009DDE54 /* BYPhotoPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A4DE9F1E51E8C7009DDE54 /* BYPhotoPickerController.m */; };
 		B4A4DEA61E51EA64009DDE54 /* BYAlbumPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A4DEA51E51EA64009DDE54 /* BYAlbumPickerController.m */; };
@@ -47,6 +50,12 @@
 		B41B09C81E54ACED000AE055 /* BYPhotoPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYPhotoPreviewController.m; sourceTree = "<group>"; };
 		B44850471E55753C004441AC /* BYPhotoPreviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYPhotoPreviewCell.h; sourceTree = "<group>"; };
 		B44850481E55753C004441AC /* BYPhotoPreviewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYPhotoPreviewCell.m; sourceTree = "<group>"; };
+		B484EE941E67177200592995 /* UIImage+BYImageCrop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BYImageCrop.h"; sourceTree = "<group>"; };
+		B484EE951E67177200592995 /* UIImage+BYImageCrop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BYImageCrop.m"; sourceTree = "<group>"; };
+		B484EE971E67186D00592995 /* BYCropTestController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCropTestController.h; sourceTree = "<group>"; };
+		B484EE981E67186D00592995 /* BYCropTestController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCropTestController.m; sourceTree = "<group>"; };
+		B484EE9A1E671D5B00592995 /* BYClipTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYClipTopView.h; sourceTree = "<group>"; };
+		B484EE9B1E671D5B00592995 /* BYClipTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYClipTopView.m; sourceTree = "<group>"; };
 		B4A4DE9B1E51D68C009DDE54 /* BYImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYImagePickerController.h; sourceTree = "<group>"; };
 		B4A4DE9C1E51D68C009DDE54 /* BYImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYImagePickerController.m; sourceTree = "<group>"; };
 		B4A4DE9E1E51E8C7009DDE54 /* BYPhotoPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYPhotoPickerController.h; sourceTree = "<group>"; };
@@ -101,6 +110,10 @@
 				B418663F1E60200100B10D9A /* BYClipListView.m */,
 				B41866401E60200100B10D9A /* BYClipView.h */,
 				B41866411E60200100B10D9A /* BYClipView.m */,
+				B484EE941E67177200592995 /* UIImage+BYImageCrop.h */,
+				B484EE951E67177200592995 /* UIImage+BYImageCrop.m */,
+				B484EE9A1E671D5B00592995 /* BYClipTopView.h */,
+				B484EE9B1E671D5B00592995 /* BYClipTopView.m */,
 			);
 			path = BYClip;
 			sourceTree = "<group>";
@@ -170,6 +183,8 @@
 				B4DAD70A1E503B37003EA8E7 /* LaunchScreen.storyboard */,
 				B4DAD70D1E503B37003EA8E7 /* Info.plist */,
 				B4DAD6FC1E503B37003EA8E7 /* Supporting Files */,
+				B484EE971E67186D00592995 /* BYCropTestController.h */,
+				B484EE981E67186D00592995 /* BYCropTestController.m */,
 			);
 			path = BYImagePicker;
 			sourceTree = "<group>";
@@ -260,9 +275,11 @@
 				B4DAD7151E503D83003EA8E7 /* BYImageManager.m in Sources */,
 				B4A4DEA61E51EA64009DDE54 /* BYAlbumPickerController.m in Sources */,
 				B4DAD7041E503B37003EA8E7 /* ViewController.m in Sources */,
+				B484EE9C1E671D5B00592995 /* BYClipTopView.m in Sources */,
 				B4A4DEA91E51F071009DDE54 /* UIView+BYLayout.m in Sources */,
 				B4A4DE9D1E51D68C009DDE54 /* BYImagePickerController.m in Sources */,
 				B4A4DEAC1E51F9B4009DDE54 /* BYAlbumCell.m in Sources */,
+				B484EE991E67186D00592995 /* BYCropTestController.m in Sources */,
 				B44850491E55753C004441AC /* BYPhotoPreviewCell.m in Sources */,
 				B41B09C91E54ACED000AE055 /* BYPhotoPreviewController.m in Sources */,
 				B41866421E60200100B10D9A /* BYClipCell.m in Sources */,
@@ -273,6 +290,7 @@
 				B4DAD6FE1E503B37003EA8E7 /* main.m in Sources */,
 				B41866431E60200100B10D9A /* BYClipListView.m in Sources */,
 				B4AD1CC31E533C6F00BEA74F /* BYPhotoCell.m in Sources */,
+				B484EE961E67177200592995 /* UIImage+BYImageCrop.m in Sources */,
 				B4A4DEB21E51FF4D009DDE54 /* BYAlbum.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface BYClipListView : UIView
-
+@property (nonatomic, copy) void(^selectedClipRate)(NSInteger widthRate, NSInteger heightRate);
 @end

@@ -10,6 +10,6 @@
 @class BYAsset;
 @interface BYPhotoPreviewCell : UICollectionViewCell
 @property (nonatomic, strong) BYAsset *asset;
-@property (nonatomic, copy) void(^singleTapBlock)();
+@property (nonatomic, copy) void(^singleTapBlock)(void);
 - (void)resetSubviews;
 @end

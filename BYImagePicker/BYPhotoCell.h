@@ -10,7 +10,7 @@
 @class BYAsset;
 @interface BYPhotoCell : UICollectionViewCell
 - (void)setAsset:(BYAsset *)asset isTakePicItem:(BOOL)isTakePicItem;
-@property (nonatomic, copy) void(^didClickedSelectIcon)();
+@property (nonatomic, copy) void(^didClickedSelectIcon)(void);
 @end
 
 @interface BYPhotoCellSelectView : UIImageView

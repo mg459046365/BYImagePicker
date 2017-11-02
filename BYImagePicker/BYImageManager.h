@@ -19,6 +19,7 @@ typedef void(^BYImageLoadProgress)(CGFloat progress, NSError *error, BOOL *stop,
 + (instancetype)manager;
 - (void)clear;
 
+/// 选中的图片
 @property (nonatomic, strong) NSMutableArray *selectedAssets;
 @property (nonatomic, assign, readonly) NSInteger selectedAssetsCount;
 /// 默认最大可选9张图片
@@ -28,9 +29,11 @@ typedef void(^BYImageLoadProgress)(CGFloat progress, NSError *error, BOOL *stop,
 
 /// 返回YES如果得到了授权
 + (BOOL)authorizationStatusAuthorized;
-+ (NSInteger)authorizationStatus;
+/// 授权状态
++ (PHAuthorizationStatus)authorizationStatus;
 /// 是否能使用相册
 + (BOOL)canUsePhotoLibrary;
+/// 是否能使用相机
 + (BOOL)canUseCamera;
 
 /// 获得相册/相册数组

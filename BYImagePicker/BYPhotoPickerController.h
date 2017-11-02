@@ -13,5 +13,5 @@
 @property (nonatomic, assign) NSInteger columnNumber;
 @property (nonatomic, strong) BYAlbum *album;
 @property (nonatomic, copy) void (^backButtonClickHandle)(BYAlbum *model);
-@property (nonatomic, copy) void (^updateAssetCount)();
+@property (nonatomic, copy) void (^updateAssetCount)(void);
 @end

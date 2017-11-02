@@ -19,10 +19,11 @@
     static BYImageManager *manager;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        manager = [[self alloc] init];
+        manager = [[BYImageManager alloc] init];
     });
     return manager;
 }
+
 - (instancetype)init
 {
     if (self = [super init]) {
@@ -49,7 +50,7 @@
     return [[self class] authorizationStatus] == PHAuthorizationStatusAuthorized;
 }
 
-+ (NSInteger)authorizationStatus {
++ (PHAuthorizationStatus)authorizationStatus {
     
     return [PHPhotoLibrary authorizationStatus];
 }
@@ -622,6 +623,8 @@
             translateToCenter = CGAffineTransformMakeTranslation(0.0, videoTrack.naturalSize.width);
             mixedTransform = CGAffineTransformRotate(translateToCenter,M_PI_2*3.0);
             videoComposition.renderSize = CGSizeMake(videoTrack.naturalSize.height,videoTrack.naturalSize.width);
+        }else{
+            
         }
         
         AVMutableVideoCompositionInstruction *roateInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];

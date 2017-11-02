@@ -128,7 +128,7 @@
     // 当选择的类型是图片
     if ([type isEqualToString:@"public.image"]) {
         [picker dismissViewControllerAnimated:YES completion:nil];
-        UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+//        UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     }
 }
 

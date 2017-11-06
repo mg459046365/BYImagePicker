@@ -302,10 +302,61 @@
 
 #pragma mark - Get Photo
 
+/// 获取原图
++ (void)fetchImageDataInAsset:(PHAsset *)asset completion:(BYImageDataFetchBlock)completion
+{
+    PHImageRequestOptions *option = [[PHImageRequestOptions alloc]init];
+//    option.networkAccessAllowed = YES;
+    [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+        BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey]);
+        //        BOOL downloadFinined = ![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey] && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue];
+        if (downloadFinined && imageData) {
+            if (completion)
+            {
+                completion(imageData,info);
+            }
+        }
+    }];
+}
+
++ (void)fetchImageInAsset:(PHAsset *)asset completion:(BYImageFetchBlock)completion
+{
+    [[self class] fetchDefaultImageInAsset:asset fixOrientation:YES completion:completion];
+}
 ///获得照片本身
 + (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset imageWidth:(CGFloat)width completion:(BYImageFetchBlock)completion
 {
     return [[self class] fetchImageInAsset:asset imageWidth:width fixOrientation:YES completion:completion];
+}
+
++ (PHImageRequestID)fetchFullScreenImageInAsset:(PHAsset *)asset completion:(BYImageFetchBlock)completion
+{
+    return [[self class] fetchImageInAsset:asset imageWidth:[UIScreen mainScreen].bounds.size.width completion:completion];
+}
+
++ (void)fetchDefaultImageInAsset:(PHAsset *)asset completion:(BYImageFetchBlock)completion
+{
+    return[[self class] fetchDefaultImageInAsset:asset fixOrientation:YES completion:completion];
+}
+
++ (void)fetchDefaultImageInAsset:(PHAsset *)asset fixOrientation:(BOOL)fix completion:(BYImageFetchBlock)completion
+{
+    PHImageRequestOptions *option = [[PHImageRequestOptions alloc]init];
+//    option.networkAccessAllowed = YES;
+    [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+        BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey]);
+        //        BOOL downloadFinined = ![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey] && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue];
+        if (downloadFinined && result) {
+            UIImage *image = result;
+            if (fix) {
+                image = [[self class] fixOrientation:result];
+            }
+            if (completion)
+            {
+                completion(image,info,[[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
+            }
+        }
+    }];
 }
 
 + (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset imageWidth:(CGFloat)width fixOrientation:(BOOL)fix completion:(BYImageFetchBlock)completion
@@ -315,8 +366,17 @@
     CGFloat pixelWidth = width * [UIScreen mainScreen].scale;
     CGFloat pixelHeight = pixelWidth / aspectRatio;
     imageSize = CGSizeMake(pixelWidth, pixelHeight);
+//    synchronous：指定请求是否同步执行。
+//    resizeMode：对请求的图像怎样缩放。有三种选择：None，不缩放；Fast，尽快地提供接近或稍微大于要求的尺寸；Exact，精准提供要求的尺寸。
+//    deliveryMode：图像质量。有三种值：Opportunistic，在速度与质量中均衡；HighQualityFormat，不管花费多长时间，提供高质量图像；FastFormat，以最快速度提供好的质量。
+//    这个属性只有在 synchronous 为 true 时有效。
+//    normalizedCropRect：用于对原始尺寸的图像进行裁剪，基于比例坐标。只在 resizeMode 为 Exact 时有效。
+//   要返回一个指定尺寸的图像需要避免两层陷阱：一定要指定 options 参数，resizeMode 不能为 None。
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
     option.resizeMode = PHImageRequestOptionsResizeModeFast;
+    //加上这局句话后，图片会不清晰
+//    option.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
+//    option.synchronous = YES;
     PHImageRequestID imageRequestID = [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:imageSize contentMode:PHImageContentModeAspectFill options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
         BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey]);
         // 下面的判断方式会造成稍微的卡顿
@@ -327,32 +387,28 @@
             }
             if (completion) completion(result,info,[[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
         }
-        // Download image from iCloud / 从iCloud下载图片
-        if ([info objectForKey:PHImageResultIsInCloudKey] && !result) {
-            PHImageRequestOptions *option = [[PHImageRequestOptions alloc]init];
-            option.networkAccessAllowed = YES;
-            option.resizeMode = PHImageRequestOptionsResizeModeFast;
-            [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-                UIImage *resultImage = [UIImage imageWithData:imageData scale:0.1];
-                resultImage = [[self class] scaleImage:resultImage toSize:imageSize];
-                if (resultImage) {
-                    if (fix) {
-                        resultImage = [[self class] fixOrientation:resultImage];
-                    }
-                    if (completion){
-                        completion(resultImage,info,[[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
-                    }
-                }
-            }];
-        }
+//        // Download image from iCloud / 从iCloud下载图片
+//        if ([info objectForKey:PHImageResultIsInCloudKey] && !result) {
+//            PHImageRequestOptions *option = [[PHImageRequestOptions alloc]init];
+//            option.networkAccessAllowed = YES;
+//            option.resizeMode = PHImageRequestOptionsResizeModeFast;
+//            [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+//                UIImage *resultImage = [UIImage imageWithData:imageData scale:0.1];
+//                resultImage = [[self class] scaleImage:resultImage toSize:imageSize];
+//                if (resultImage) {
+//                    if (fix) {
+//                        resultImage = [[self class] fixOrientation:resultImage];
+//                    }
+//                    if (completion){
+//                        completion(resultImage,info,[[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
+//                    }
+//                }
+//            }];
+//        }
     }];
     return imageRequestID;
 }
 
-+ (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset completion:(BYImageFetchBlock)completion
-{
-    return [[self class] fetchImageInAsset:asset imageWidth:[UIScreen mainScreen].bounds.size.width completion:completion];
-}
 
 + (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset networkAllowed:(BOOL)networkAllowed progress:(BYImageLoadProgress)progressHandler completion:(BYImageFetchBlock)completion
 {
@@ -400,7 +456,6 @@
     return imageRequestID;
 }
 
-
 ///获取封面图
 + (void)fetchAlbumCover:(BYAlbum *)album completion:(void (^)(UIImage *image))completion
 {
@@ -408,47 +463,6 @@
     [[self class] fetchImageInAsset:asset imageWidth:80 completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
         if (completion) {
             completion(image);
-        }
-    }];
-}
-/// 获取原图
-+ (void)fetchOriginalImageDataInAsset:(PHAsset *)asset completion:(void (^)(NSData *data,NSDictionary *info))completion
-{
-    PHImageRequestOptions *option = [[PHImageRequestOptions alloc]init];
-    option.networkAccessAllowed = YES;
-    [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-        BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey]);
-//        BOOL downloadFinined = ![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey] && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue];
-        if (downloadFinined && imageData) {
-            if (completion)
-            {
-                completion(imageData,info);
-            }
-        }
-    }];
-}
-
-+ (void)fetchOriginalImageInAsset:(PHAsset *)asset completion:(void (^)(UIImage *image,NSDictionary *info))completion
-{
-    [[self class] fetchOriginalImageInAsset:asset fixOrientation:YES completion:completion];
-}
-
-+ (void)fetchOriginalImageInAsset:(PHAsset *)asset fixOrientation:(BOOL)fix completion:(void (^)(UIImage *image,NSDictionary *info))completion
-{
-    PHImageRequestOptions *option = [[PHImageRequestOptions alloc]init];
-    option.networkAccessAllowed = YES;
-    [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-        BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey]);
-//        BOOL downloadFinined = ![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey] && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue];
-        if (downloadFinined && result) {
-            UIImage *image = result;
-            if (fix) {
-                image = [[self class] fixOrientation:result];
-            }
-            if (completion)
-            {
-                completion(image,info);
-            }
         }
     }];
 }
@@ -618,15 +632,13 @@
             translateToCenter = CGAffineTransformMakeTranslation(videoTrack.naturalSize.width, videoTrack.naturalSize.height);
             mixedTransform = CGAffineTransformRotate(translateToCenter,M_PI);
             videoComposition.renderSize = CGSizeMake(videoTrack.naturalSize.width,videoTrack.naturalSize.height);
-        } else if(degrees == 270){
+        } else {
             // 顺时针旋转270°
             translateToCenter = CGAffineTransformMakeTranslation(0.0, videoTrack.naturalSize.width);
             mixedTransform = CGAffineTransformRotate(translateToCenter,M_PI_2*3.0);
             videoComposition.renderSize = CGSizeMake(videoTrack.naturalSize.height,videoTrack.naturalSize.width);
-        }else{
-            
         }
-        
+           
         AVMutableVideoCompositionInstruction *roateInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
         roateInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, [videoAsset duration]);
         AVMutableVideoCompositionLayerInstruction *roateLayerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoTrack];

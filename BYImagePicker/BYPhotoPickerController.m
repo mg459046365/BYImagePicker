@@ -187,26 +187,26 @@
         return;
     }
     
-//    BYPhotoPreviewController *controller = [[BYPhotoPreviewController alloc] init];
-//    controller.assets = self.assets;
-//    NSInteger index = 0;
-//    if (self.firstItemIsCamera) {
-//        index = indexPath.item - 1;
-//    }else{
-//        index = indexPath.item;
-//    }
-//    controller.showIndex = index;
-//    [self.navigationController pushViewController:controller animated:YES];
-    
-    BYPhotoEditController *controller = [[BYPhotoEditController alloc] init];
+    BYPhotoPreviewController *controller = [[BYPhotoPreviewController alloc] init];
+    controller.assets = self.assets;
     NSInteger index = 0;
     if (self.firstItemIsCamera) {
         index = indexPath.item - 1;
     }else{
         index = indexPath.item;
     }
-    controller.asset = self.assets[index];
+    controller.showIndex = index;
     [self.navigationController pushViewController:controller animated:YES];
+    
+//    BYPhotoEditController *controller = [[BYPhotoEditController alloc] init];
+//    NSInteger index = 0;
+//    if (self.firstItemIsCamera) {
+//        index = indexPath.item - 1;
+//    }else{
+//        index = indexPath.item;
+//    }
+//    controller.asset = self.assets[index];
+//    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath

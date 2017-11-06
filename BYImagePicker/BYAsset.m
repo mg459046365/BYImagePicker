@@ -13,6 +13,7 @@
 @property (nonatomic, assign) PHImageRequestID imageRequestID;
 /// 高清图
 @property (nonatomic, strong) UIImage *photo;
+
 @end
 
 @implementation BYAsset
@@ -69,9 +70,35 @@
     }
 }
 
-- (void)fetchOriginImageCompletion:(void(^)(UIImage *image))completion
+- (CGSize)fitSize:(CGSize)targetSize
 {
-    [BYImageManager fetchOriginalImageDataInAsset:self.asset completion:^(NSData *data, NSDictionary *info) {
+    CGFloat scale = [UIScreen mainScreen].scale;
+    CGSize size = CGSizeMake(self.asset.pixelWidth, self.asset.pixelHeight);
+    CGSize tmpPixSize = CGSizeMake(targetSize.width * scale, targetSize.height * scale);
+    CGSize resultSize = CGSizeZero;
+    if (tmpPixSize.height / size.height > tmpPixSize.width / size.width)
+    {
+        resultSize.width = ceil(tmpPixSize.width / scale);
+        resultSize.height = floor(size.height * tmpPixSize.width / (size.width * scale));
+    }else{
+        resultSize.height = ceil(tmpPixSize.height / scale);
+        resultSize.width = floor(size.width * tmpPixSize.height / (size.height * scale));
+    }
+    return resultSize;
+}
+
+- (void)fetchImageDataCompletion:(void (^)(NSData *data))completion
+{
+    [BYImageManager fetchImageDataInAsset:self.asset completion:^(NSData *data, NSDictionary *info) {
+        if (completion) {
+            completion(data);
+        }
+    }];
+}
+
+- (void)fetchImageCompletion:(void(^)(UIImage *image))completion
+{
+    [BYImageManager fetchImageDataInAsset:self.asset completion:^(NSData *data, NSDictionary *info) {
         UIImage *image = [UIImage imageWithData:data];
         if (completion) {
             completion(image);

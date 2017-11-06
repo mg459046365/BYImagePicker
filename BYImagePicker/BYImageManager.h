@@ -11,6 +11,7 @@
 
 @class BYAlbum,BYAsset;
 typedef void(^BYImageFetchBlock)(UIImage *image,NSDictionary *info,BOOL isDegraded);
+typedef void(^BYImageDataFetchBlock)(NSData *data,NSDictionary *info);
 typedef void(^BYAssetsFetchBlock)(NSArray<BYAsset *> *allAssets, NSArray<BYAsset *> *photoAssets, NSArray<BYAsset *> *videoAssets, NSArray<BYAsset *> *audioAssets);
 typedef void(^BYImageLoadProgress)(CGFloat progress, NSError *error, BOOL *stop, NSDictionary *info);
 
@@ -59,17 +60,17 @@ typedef void(^BYImageLoadProgress)(CGFloat progress, NSError *error, BOOL *stop,
 + (BYAsset *)fetchAssetIn:(PHFetchResult *)result atIndex:(NSInteger)index;
 
 /// 获得照片
++ (void)fetchImageDataInAsset:(PHAsset *)asset completion:(BYImageDataFetchBlock)completion;
++ (void)fetchImageInAsset:(PHAsset *)asset completion:(BYImageFetchBlock)completion;
++ (void)fetchDefaultImageInAsset:(PHAsset *)asset completion:(BYImageFetchBlock)completion;
++ (void)fetchDefaultImageInAsset:(PHAsset *)asset fixOrientation:(BOOL)fix completion:(BYImageFetchBlock)completion;
++ (PHImageRequestID)fetchFullScreenImageInAsset:(PHAsset *)asset completion:(BYImageFetchBlock)completion;
 + (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset imageWidth:(CGFloat)width completion:(BYImageFetchBlock)completion;
 + (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset imageWidth:(CGFloat)width fixOrientation:(BOOL)fix completion:(BYImageFetchBlock)completion;
-+ (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset completion:(BYImageFetchBlock)completion;
 + (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset networkAllowed:(BOOL)networkAllowed progress:(BYImageLoadProgress)progressHandler completion:(BYImageFetchBlock)completion;
 + (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset imageWidth:(CGFloat)width networkAllowed:(BOOL)networkAllowed progress:(BYImageLoadProgress)progressHandler completion:(BYImageFetchBlock)completion;
 
 + (void)fetchAlbumCover:(BYAlbum *)album completion:(void (^)(UIImage *image))completion;
-+ (void)fetchOriginalImageDataInAsset:(PHAsset *)asset completion:(void (^)(NSData *data,NSDictionary *info))completion;
-+ (void)fetchOriginalImageInAsset:(PHAsset *)asset completion:(void (^)(UIImage *image,NSDictionary *info))completion;
-+ (void)fetchOriginalImageInAsset:(PHAsset *)asset fixOrientation:(BOOL)fix completion:(void (^)(UIImage *image,NSDictionary *info))completion;
-
 /// 保存照片
 + (void)saveImage:(UIImage *)image completion:(void (^)(NSError *error))completion;
 

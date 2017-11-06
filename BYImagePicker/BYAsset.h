@@ -19,6 +19,9 @@
 @property (nonatomic, assign) BOOL isSelected;
 /// 用一个PHAsset实例，初始化一个照片模型
 + (instancetype)modelWithAsset:(PHAsset *)asset;
+- (CGSize)fitSize:(CGSize)targetSize;
+
+- (void)fetchImageDataCompletion:(void (^)(NSData *data))completion;
+- (void)fetchImageCompletion:(void(^)(UIImage *image))completion;
 - (void)fetchImageWidth:(CGFloat)width complete:(void(^)(UIImage *image))fetchBlock;
-- (void)fetchOriginImageCompletion:(void(^)(UIImage *image))completion;
 @end

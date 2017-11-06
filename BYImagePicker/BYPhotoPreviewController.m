@@ -124,7 +124,7 @@
     for (NSInteger i = 0;i < array.count;i++) {
         BYAsset *asset = array[i];
         dispatch_group_async(group, queue, ^{
-            [asset fetchOriginImageCompletion:^(UIImage *image) {
+            [asset fetchImageCompletion:^(UIImage *image) {
                 [tmpArray replaceObjectAtIndex:i withObject:image];
             }];
         });

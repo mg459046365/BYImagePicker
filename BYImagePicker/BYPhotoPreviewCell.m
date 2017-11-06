@@ -48,27 +48,36 @@
 
 - (void)resetSubviews {
     [_scrollView setZoomScale:1.0 animated:NO];
-    [self resizeImageView:self.imageView.image];
+    [self resizeImageView];
+//    [self resizeImageView:self.imageView.image];
 }
 
-- (void)resizeImageView:(UIImage *)image
+- (void)resizeImageView
 {
-    if (!image) {
-        return;
-    }
-    CGSize size = image.size;
-    if (size.height / size.width > self.scrollView.by_height / self.scrollView.by_width) {
-        CGFloat multiplier = self.scrollView.by_height / image.size.height;
-        CGFloat width = size.width * multiplier;
-        self.imageView.frame = CGRectMake((self.scrollView.by_width - width) / 2, 0, width, self.scrollView.by_height);
-    } else {
-        CGFloat multiplier = self.scrollView.by_width / size.width;
-        CGFloat height = size.height * multiplier;
-        self.imageView.frame = CGRectMake(0, (self.scrollView.by_height - height) / 2, self.scrollView.by_width, height);
-    }
+    CGSize tmpSize = [self.asset fitSize:self.scrollView.by_size];
+    self.imageView.frame = CGRectMake((self.scrollView.by_width - tmpSize.width) / 2, (self.scrollView.by_height - tmpSize.height) / 2, tmpSize.width, tmpSize.height);
     self.scrollView.contentSize = CGSizeMake(self.scrollView.by_width, MAX(self.imageView.by_height, self.scrollView.by_height));
     [self.scrollView scrollRectToVisible:self.bounds animated:NO];
 }
+
+//- (void)resizeImageView:(UIImage *)image
+//{
+//    if (!image) {
+//        return;
+//    }
+//    CGSize size = image.size;
+//    if (size.height / size.width > self.scrollView.by_height / self.scrollView.by_width) {
+//        CGFloat multiplier = self.scrollView.by_height / image.size.height;
+//        CGFloat width = size.width * multiplier;
+//        self.imageView.frame = CGRectMake((self.scrollView.by_width - width) / 2, 0, width, self.scrollView.by_height);
+//    } else {
+//        CGFloat multiplier = self.scrollView.by_width / size.width;
+//        CGFloat height = size.height * multiplier;
+//        self.imageView.frame = CGRectMake(0, (self.scrollView.by_height - height) / 2, self.scrollView.by_width, height);
+//    }
+//    self.scrollView.contentSize = CGSizeMake(self.scrollView.by_width, MAX(self.imageView.by_height, self.scrollView.by_height));
+//    [self.scrollView scrollRectToVisible:self.bounds animated:NO];
+//}
 
 - (void)setAsset:(BYAsset *)asset
 {
@@ -78,10 +87,22 @@
 //        weakSelf.imageView.image = image;
 //        [weakSelf resizeImageView:image];
 //    }];
-    [asset fetchOriginImageCompletion:^(UIImage *image) {
-        weakSelf.imageView.image = image;
-        [weakSelf resizeImageView:image];
+    [self resizeImageView];
+    [asset fetchImageDataCompletion:^(NSData *data) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//            *  @scale 参数的说明
+//            *  scale 为小于零的数值（数值为 A）的时候 ，image的大小(size)是按（1/A）增加的,增加后的大小是：size * （1/A）。
+//            *  scale 为大于零的数值（数值为 A）的时候 ，image的大小(size)是按（1/A）减小的,减小后的大小是：size * （1/A）。
+            UIImage *image = [UIImage imageWithData:data scale:[UIScreen mainScreen].scale];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                weakSelf.imageView.image = image;
+            });
+        });
     }];
+//    [asset fetchOriginImageCompletion:^(UIImage *image) {
+//        weakSelf.imageView.image = image;
+//        [weakSelf resizeImageView:image];
+//    }];
 }
 
 - (void)singleTap:(UITapGestureRecognizer *)gesture

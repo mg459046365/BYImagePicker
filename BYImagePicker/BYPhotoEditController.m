@@ -36,7 +36,7 @@
     [self.view addSubview:self.menuView];
     
     __weak typeof(self) weakSelf = self;
-    [self.asset fetchOriginImageCompletion:^(UIImage *image) {
+    [self.asset fetchImageCompletion:^(UIImage *image) {
         weakSelf.originImage = image;
         weakSelf.imageView.image = image;
         [weakSelf resizeImageView];

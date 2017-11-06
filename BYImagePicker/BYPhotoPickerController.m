@@ -79,7 +79,7 @@
     }
     BYAsset *asset = self.assets[tmp];
     
-    if ([BYImageManager manager].selectedAssetsCount >= [BYImageManager manager].maxImagesCount && !asset.isSelected) {
+    if ([BYImageManager manager].selectedAssetsCount >= [BYImageManager manager].maxPhotoCount && !asset.isSelected) {
         if (picker.pickerDelegate && [picker.pickerDelegate respondsToSelector:@selector(by_imagePickerControllerBeyondMaximum:)]) {
             [picker.pickerDelegate by_imagePickerControllerBeyondMaximum:picker];
         }

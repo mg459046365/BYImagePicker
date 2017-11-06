@@ -9,15 +9,18 @@
 #import "ViewController.h"
 #import "BYAlbumPickerController.h"
 #import "BYImagePickerController.h"
-@interface ViewController ()<BYImagePickerDelegate>
-
+#import "BYPhotoCell.h"
+#import "UIView+BYLayout.h"
+@interface ViewController ()<BYImagePickerDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
+@property (nonatomic, strong)NSMutableArray *photos;
+@property (nonatomic, strong)UICollectionView *collectionView;
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.photos = [NSMutableArray array];
     self.title = @"测试demo";
     self.view.backgroundColor = [UIColor whiteColor];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -26,6 +29,7 @@
     [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(test:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:button];
+    [self.view addSubview:self.collectionView];
 }
 
 - (void)test:(id)sender
@@ -40,16 +44,60 @@
     
 }
 
-- (void)by_imagePickerController:(BYImagePickerController *)picker didFinishPickedPhotos:(NSArray<UIImage *> *)photos
-{
-    
-}
-
 - (void)by_imagePickerController:(BYImagePickerController *)picker didFinishPickedAssets:(NSArray<BYAsset *> *)assets
 {
-    
+    [self.photos addObjectsFromArray:assets];
+    [self.collectionView reloadData];
 }
 
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat cellWidth = (self.view.by_width - 3.0*(4 + 1))/4;
+    return CGSizeMake(cellWidth, cellWidth);
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    //top,left,bottom,right
+    return UIEdgeInsetsMake(3, 3, 3, 3);
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 3.0f;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 3.0f;
+}
+
+- (UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath
+{
+    BYPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([BYPhotoCell class]) forIndexPath:indexPath];
+    BYAsset *asset = self.photos[indexPath.item];
+    [cell setAsset:asset isTakePicItem:NO];
+    return cell;
+}
+
+- (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.photos.count;
+}
+#pragma mark - View
+- (UICollectionView *)collectionView
+{
+    if (!_collectionView) {
+        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0,160, self.view.by_width, self.view.by_height - 160-64) collectionViewLayout:flowLayout];
+        [_collectionView registerClass:[BYPhotoCell class] forCellWithReuseIdentifier:NSStringFromClass([BYPhotoCell class])];
+        _collectionView.delegate = self;
+        _collectionView.dataSource = self;
+        _collectionView.backgroundColor = [UIColor whiteColor];
+        _collectionView.showsVerticalScrollIndicator = NO;
+    }
+    return _collectionView;
+}
 
 - (void)didReceiveMemoryWarning
 {

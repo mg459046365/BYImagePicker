@@ -21,12 +21,12 @@ typedef void(^BYImageLoadProgress)(CGFloat progress, NSError *error, BOOL *stop,
 - (void)clear;
 
 /// 选中的图片
-@property (nonatomic, strong) NSMutableArray *selectedAssets;
+@property (nonatomic, strong) NSMutableArray<BYAsset *> *selectedAssets;
 @property (nonatomic, assign, readonly) NSInteger selectedAssetsCount;
 /// 默认最大可选9张图片
-@property (nonatomic, assign) NSInteger maxImagesCount;
+@property (nonatomic, assign) NSInteger maxPhotoCount;
 /// 最小照片必选张数,默认是0
-@property (nonatomic, assign) NSInteger minImagesCount;
+@property (nonatomic, assign) NSInteger minPhotoCount;
 
 /// 返回YES如果得到了授权
 + (BOOL)authorizationStatusAuthorized;

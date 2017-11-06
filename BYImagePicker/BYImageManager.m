@@ -35,8 +35,8 @@
 - (void)clear
 {
     [self.selectedAssets removeAllObjects];
-    self.maxImagesCount = 9;
-    self.minImagesCount = 0;
+    self.maxPhotoCount = 9;
+    self.minPhotoCount = 0;
 }
 
 - (NSInteger)selectedAssetsCount

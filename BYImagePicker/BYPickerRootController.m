@@ -35,7 +35,7 @@
     _photoController.columnNumber = 3;
     __weak typeof(self) weakSelf = self;
     _photoController.updateAssetCount = ^{
-        NSString *title = [NSString stringWithFormat:@"%@/%@继续",@([BYImageManager manager].selectedAssetsCount),@([BYImageManager manager].maxImagesCount)];
+        NSString *title = [NSString stringWithFormat:@"%@/%@继续",@([BYImageManager manager].selectedAssetsCount),@([BYImageManager manager].maxPhotoCount)];
         [weakSelf.rightButton setTitle:title forState:UIControlStateNormal];
     };
     BYAlbum *album = [BYImageManager fetchCameraRollAlbumMediaType:PHAssetMediaTypeImage];
@@ -60,7 +60,7 @@
     self.navigationItem.titleView = self.titleView;
     
     self.rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.rightButton setTitle:[NSString stringWithFormat:@"0/%@继续",@([BYImageManager manager].maxImagesCount)] forState:UIControlStateNormal];
+    [self.rightButton setTitle:[NSString stringWithFormat:@"0/%@继续",@([BYImageManager manager].maxPhotoCount)] forState:UIControlStateNormal];
     [self.rightButton setTitleColor:RGB(0x00aaf7) forState:UIControlStateNormal];
     self.rightButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
     [self.rightButton sizeToFit];
@@ -71,7 +71,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    NSString *title = [NSString stringWithFormat:@"%@/%@继续",@([BYImageManager manager].selectedAssetsCount),@([BYImageManager manager].maxImagesCount)];
+    NSString *title = [NSString stringWithFormat:@"%@/%@继续",@([BYImageManager manager].selectedAssetsCount),@([BYImageManager manager].maxPhotoCount)];
     [self.rightButton setTitle:title forState:UIControlStateNormal];
 }
 

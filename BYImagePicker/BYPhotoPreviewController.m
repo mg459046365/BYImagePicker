@@ -63,7 +63,7 @@
 - (void)didClickedSelectButton:(id)sender
 {
     BYImagePickerController *picker = (BYImagePickerController *)self.navigationController;
-    if ([BYImageManager manager].selectedAssetsCount >= [BYImageManager manager].maxImagesCount && !self.currentAsset.isSelected) {
+    if ([BYImageManager manager].selectedAssetsCount >= [BYImageManager manager].maxPhotoCount && !self.currentAsset.isSelected) {
         if (picker.pickerDelegate && [picker.pickerDelegate respondsToSelector:@selector(by_imagePickerControllerBeyondMaximum:)]) {
             [picker.pickerDelegate by_imagePickerControllerBeyondMaximum:picker];
         }

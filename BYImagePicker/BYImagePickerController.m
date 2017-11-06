@@ -69,16 +69,16 @@
 
 - (void)configureData
 {
-    _maxImagesCount = 9;
+    _maxPhotoCount = 9;
     _columnNumber = 4;
     [[BYImageManager manager].selectedAssets removeAllObjects];
-    [BYImageManager manager].maxImagesCount = 9;
+    [BYImageManager manager].maxPhotoCount = 9;
 }
 
 - (void)setMaxImagesCount:(NSInteger)maxImagesCount
 {
-    _maxImagesCount = maxImagesCount >0 ? maxImagesCount : 9;
-    [BYImageManager manager].maxImagesCount = _maxImagesCount;
+    _maxPhotoCount = maxImagesCount >0 ? _maxPhotoCount : 9;
+    [BYImageManager manager].maxPhotoCount = _maxPhotoCount;
 }
 
 @end

@@ -40,11 +40,19 @@
     
 }
 
-- (void)by_imagePickerController:(BYImagePickerController *)picker didFinishPickingPhotos:(NSArray<UIImage *> *)photos
+- (void)by_imagePickerController:(BYImagePickerController *)picker didFinishPickedPhotos:(NSArray<UIImage *> *)photos
 {
+    
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)by_imagePickerController:(BYImagePickerController *)picker didFinishPickedAssets:(NSArray<BYAsset *> *)assets
+{
+    
+}
+
+
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
 }
 

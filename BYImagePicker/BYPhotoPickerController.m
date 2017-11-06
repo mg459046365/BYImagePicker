@@ -92,11 +92,11 @@
     }
     if (asset.isSelected) {
         if (picker.pickerDelegate && [picker.pickerDelegate respondsToSelector:@selector(by_imagePickerController:didSelectPhoto:)]) {
-            [picker.pickerDelegate by_imagePickerController:picker didSelectPhoto:asset.asset];
+            [picker.pickerDelegate by_imagePickerController:picker didSelectPhoto:asset];
         }
     }else{
         if (picker.pickerDelegate && [picker.pickerDelegate respondsToSelector:@selector(by_imagePickerController:didDeselectPhoto:)]) {
-            [picker.pickerDelegate by_imagePickerController:picker didDeselectPhoto:asset.asset];
+            [picker.pickerDelegate by_imagePickerController:picker didDeselectPhoto:asset];
         }
     }
 }

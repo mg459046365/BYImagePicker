@@ -36,12 +36,11 @@ typedef NS_ENUM(NSInteger, BYEditType)
 @protocol BYImagePickerDelegate <NSObject>
 
 @required
-- (void)by_imagePickerController:(BYImagePickerController *)picker didFinishPickingPhotos:(NSArray<UIImage *> *)photos;
-@optional
-//- (void)by_imagePickerController:(BYImagePickerController *)picker didFinishPickingAssets:(NSArray<PHAsset *> *)assets;
-- (void)by_imagePickerController:(BYImagePickerController *)picker didSelectPhoto:(PHAsset *)asset;
-- (void)by_imagePickerController:(BYImagePickerController *)picker didDeselectPhoto:(PHAsset *)asset;
-- (void)by_imagePickerControllerBeyondMaximum:(BYImagePickerController *)picker;
+//- (void)by_imagePickerController:(BYImagePickerController *)picker didFinishPickedPhotos:(NSArray<UIImage *> *)photos;
+- (void)by_imagePickerController:(BYImagePickerController *)picker didFinishPickedAssets:(NSArray<BYAsset *> *)assets;
 - (void)by_imagePickerControllerDismiss:(BYImagePickerController *)picker;
-
+@optional
+- (void)by_imagePickerController:(BYImagePickerController *)picker didSelectPhoto:(BYAsset *)asset;
+- (void)by_imagePickerController:(BYImagePickerController *)picker didDeselectPhoto:(BYAsset *)asset;
+- (void)by_imagePickerControllerBeyondMaximum:(BYImagePickerController *)picker;
 @end

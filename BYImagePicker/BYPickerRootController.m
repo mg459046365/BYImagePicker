@@ -83,8 +83,8 @@
 {
     BYImagePickerController *picker = (BYImagePickerController *)self.navigationController;
     if ([BYImageManager manager].selectedAssets.count == 0) {
-        if (picker.pickerDelegate && [picker.pickerDelegate respondsToSelector:@selector(by_imagePickerController:didFinishPickingPhotos:)]) {
-            [picker.pickerDelegate by_imagePickerController:picker didFinishPickingPhotos:[BYImageManager manager].selectedAssets];
+        if (picker.pickerDelegate && [picker.pickerDelegate respondsToSelector:@selector(by_imagePickerController:didFinishPickedAssets:)]) {
+            [picker.pickerDelegate by_imagePickerController:picker didFinishPickedAssets:[BYImageManager manager].selectedAssets];
         }
         [[BYImageManager manager] clear];
         [picker dismissViewControllerAnimated:YES completion:nil];
@@ -110,8 +110,8 @@
     __weak typeof(self) weakSelf = self;
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
         BYImagePickerController *picker = (BYImagePickerController *)weakSelf.navigationController;
-        if (picker.pickerDelegate && [picker.pickerDelegate respondsToSelector:@selector(by_imagePickerController:didFinishPickingPhotos:)]) {
-            [picker.pickerDelegate by_imagePickerController:picker didFinishPickingPhotos:tmpArray];
+        if (picker.pickerDelegate && [picker.pickerDelegate respondsToSelector:@selector(by_imagePickerController:didFinishPickedAssets:)]) {
+            [picker.pickerDelegate by_imagePickerController:picker didFinishPickedAssets:tmpArray];
         }
         [[BYImageManager manager] clear];
         [picker dismissViewControllerAnimated:YES completion:nil];

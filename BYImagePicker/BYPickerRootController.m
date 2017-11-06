@@ -73,6 +73,7 @@
     [super viewWillAppear:animated];
     NSString *title = [NSString stringWithFormat:@"%@/%@继续",@([BYImageManager manager].selectedAssetsCount),@([BYImageManager manager].maxPhotoCount)];
     [self.rightButton setTitle:title forState:UIControlStateNormal];
+    [self.rightButton sizeToFit];
 }
 
 - (void)didReceiveMemoryWarning {

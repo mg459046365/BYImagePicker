@@ -16,13 +16,13 @@
 
 @interface BYPhotoPreviewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 @property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, assign) NSInteger currentIndex;
 @property (nonatomic, strong) UIView *topView;
 @property (nonatomic, strong) UIView *bottomView;
 @property (nonatomic, strong) UIButton *backButton;
 @property (nonatomic, strong) UIButton *selectButton;
 @property (nonatomic, strong) UILabel *countLabel;
 @property (nonatomic, strong) BYAsset *currentAsset;
+@property (nonatomic, assign) NSInteger currentIndex;
 @property (nonatomic, assign) BOOL menuHidden;
 
 @end
@@ -77,6 +77,10 @@
         [UIView showShakeAnimationLayer:self.countLabel.layer type:BYShakeAnimationTypeBig];
     }else{
         [UIView showShakeAnimationLayer:self.countLabel.layer type:BYShakeAnimationTypeSmall];
+    }
+    
+    if (self.updateCell) {
+        self.updateCell(self.currentAsset, self.currentIndex);
     }
     
     if (self.currentAsset.isSelected) {
@@ -157,6 +161,7 @@
 {
     BYAsset *asset = self.assets[indexPath.item];
     self.currentAsset = asset;
+    self.currentIndex = indexPath.item;
     [self.selectButton setSelected:asset.isSelected];
 }
 

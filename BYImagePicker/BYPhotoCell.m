@@ -49,8 +49,6 @@
 
 - (void)singleTapSelectView:(UITapGestureRecognizer *)gesture
 {
-//    _asset.isSelected = !_asset.isSelected;
-//    self.selectedView.image = _asset.isSelected ? [UIImage imageNamed:@"photo_selected_icon"] : [UIImage imageNamed:@"photo_unselect_icon"];
     if (self.didClickedSelectIcon) {
         self.didClickedSelectIcon();
     }

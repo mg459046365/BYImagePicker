@@ -24,18 +24,31 @@
     self.title = @"测试demo";
     self.view.backgroundColor = [UIColor whiteColor];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(100, 100, 200, 60);
+    button.frame = CGRectMake(100, 100, 100, 60);
     [button setTitle:@"相册" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(test:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:button];
+    
+    UIButton *button1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    button1.frame = CGRectMake(button.by_right + 40, 100, 100, 60);
+    [button1 setTitle:@"清空" forState:UIControlStateNormal];
+    [button1 setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [button1 addTarget:self action:@selector(clear:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:button1];
     [self.view addSubview:self.collectionView];
 }
 
+- (void)clear:(id)sender
+{
+    [self.photos removeAllObjects];
+    [self.collectionView reloadData];
+}
 - (void)test:(id)sender
 {
     BYImagePickerController *picker = [[BYImagePickerController alloc] init];
     picker.pickerDelegate = self;
+    picker.lastSelectedAssets = [NSMutableArray arrayWithArray:self.photos];
     [self presentViewController:picker animated:YES completion:nil];
 }
 
@@ -46,6 +59,7 @@
 
 - (void)by_imagePickerController:(BYImagePickerController *)picker didFinishPickedAssets:(NSArray<BYAsset *> *)assets
 {
+    [self.photos removeAllObjects];
     [self.photos addObjectsFromArray:assets];
     [self.collectionView reloadData];
 }

@@ -75,6 +75,11 @@
     [BYImageManager manager].maxPhotoCount = 9;
 }
 
+- (void)setLastSelectedAssets:(NSArray<BYAsset *> *)lastSelectedAssets
+{
+    [[BYImageManager manager].selectedAssets addObjectsFromArray:lastSelectedAssets];
+}
+
 - (void)setMaxImagesCount:(NSInteger)maxImagesCount
 {
     _maxPhotoCount = maxImagesCount >0 ? _maxPhotoCount : 9;

@@ -189,6 +189,14 @@
     
     BYPhotoPreviewController *controller = [[BYPhotoPreviewController alloc] init];
     controller.assets = self.assets;
+    __weak typeof(self) weakSelf = self;
+    controller.updateCell = ^(BYAsset *asset, NSInteger index) {
+        NSInteger tmpIndex = index;
+        if (weakSelf.firstItemIsCamera) {
+            tmpIndex = index + 1;
+        }
+        [weakSelf.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:tmpIndex inSection:0]]];
+    };
     NSInteger index = 0;
     if (self.firstItemIsCamera) {
         index = indexPath.item - 1;

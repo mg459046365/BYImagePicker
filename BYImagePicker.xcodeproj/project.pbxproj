@@ -33,6 +33,7 @@
 		B4DAD7181E5040A3003EA8E7 /* BYAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = B4DAD7171E5040A3003EA8E7 /* BYAsset.m */; };
 		B4EC16A91E574BA000DD7EAE /* BYPickerRootController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4EC16A81E574BA000DD7EAE /* BYPickerRootController.m */; };
 		B4EC16AD1E5757DE00DD7EAE /* yogaMusicDefaultIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = B4EC16AC1E5757DE00DD7EAE /* yogaMusicDefaultIcon.png */; };
+		B4F3ED8E1FB162CF0055AD93 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = B4F3ED8D1FB162CF0055AD93 /* MBProgressHUD.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +89,8 @@
 		B4EC16A71E574BA000DD7EAE /* BYPickerRootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYPickerRootController.h; sourceTree = "<group>"; };
 		B4EC16A81E574BA000DD7EAE /* BYPickerRootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYPickerRootController.m; sourceTree = "<group>"; };
 		B4EC16AC1E5757DE00DD7EAE /* yogaMusicDefaultIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yogaMusicDefaultIcon.png; sourceTree = "<group>"; };
+		B4F3ED8C1FB162CF0055AD93 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		B4F3ED8D1FB162CF0055AD93 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +148,7 @@
 		B4DAD6FB1E503B37003EA8E7 /* BYImagePicker */ = {
 			isa = PBXGroup;
 			children = (
+				B4F3ED8B1FB162C00055AD93 /* MBProgressHUD */,
 				B418663B1E60200100B10D9A /* BYClip */,
 				B4AD1CC41E5342B000BEA74F /* Resources */,
 				B4DAD7131E503D83003EA8E7 /* BYImageManager.h */,
@@ -195,6 +199,15 @@
 				B4DAD6FD1E503B37003EA8E7 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B4F3ED8B1FB162C00055AD93 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				B4F3ED8C1FB162CF0055AD93 /* MBProgressHUD.h */,
+				B4F3ED8D1FB162CF0055AD93 /* MBProgressHUD.m */,
+			);
+			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -272,6 +285,7 @@
 			files = (
 				B4A4DEA01E51E8C7009DDE54 /* BYPhotoPickerController.m in Sources */,
 				B41343D11E5C4235000E36F4 /* BYPhotoEditController.m in Sources */,
+				B4F3ED8E1FB162CF0055AD93 /* MBProgressHUD.m in Sources */,
 				B4DAD7151E503D83003EA8E7 /* BYImageManager.m in Sources */,
 				B4A4DEA61E51EA64009DDE54 /* BYAlbumPickerController.m in Sources */,
 				B4DAD7041E503B37003EA8E7 /* ViewController.m in Sources */,

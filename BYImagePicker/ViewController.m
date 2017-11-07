@@ -11,6 +11,7 @@
 #import "BYImagePickerController.h"
 #import "BYPhotoCell.h"
 #import "UIView+BYLayout.h"
+#import "MBProgressHUD.h"
 @interface ViewController ()<BYImagePickerDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
 @property (nonatomic, strong)NSMutableArray *photos;
 @property (nonatomic, strong)UICollectionView *collectionView;
@@ -53,17 +54,18 @@
     [self presentViewController:picker animated:YES completion:nil];
 }
 
+#pragma mark - BYImagePickerDelegate
 - (void)by_imagePickerControllerDismiss:(BYImagePickerController *)picker
 {
-    
+    NSLog(@"取消");
 }
 
 - (void)by_imagePickerControllerBeyondMaximum:(BYImagePickerController *)picker
 {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"超出图片可选最大数目" message:nil preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
-    [alert addAction:action];
-    [self presentViewController:alert animated:YES completion:nil];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
+    hud.mode = MBProgressHUDModeText;
+    hud.label.text = @"超出图片可选最大数目";
+    [hud hideAnimated:YES afterDelay:2];
 }
 
 - (void)by_imagePickerController:(BYImagePickerController *)picker didFinishPickedAssets:(NSArray<BYAsset *> *)assets
@@ -73,7 +75,7 @@
     [self.collectionView reloadData];
 }
 
-
+#pragma mark - UICollectionViewDelegate,UICollectionViewDataSource
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat cellWidth = (self.view.by_width - 3.0*(4 + 1))/4;
@@ -107,6 +109,7 @@
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.photos.count;
 }
+
 #pragma mark - View
 - (UICollectionView *)collectionView
 {

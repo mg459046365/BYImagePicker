@@ -44,6 +44,7 @@
     [self.photos removeAllObjects];
     [self.collectionView reloadData];
 }
+
 - (void)test:(id)sender
 {
     BYImagePickerController *picker = [[BYImagePickerController alloc] init];
@@ -55,6 +56,14 @@
 - (void)by_imagePickerControllerDismiss:(BYImagePickerController *)picker
 {
     
+}
+
+- (void)by_imagePickerControllerBeyondMaximum:(BYImagePickerController *)picker
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"超出图片可选最大数目" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
+    [alert addAction:action];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)by_imagePickerController:(BYImagePickerController *)picker didFinishPickedAssets:(NSArray<BYAsset *> *)assets

@@ -60,10 +60,11 @@
     self.navigationItem.titleView = self.titleView;
     
     self.rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.rightButton setTitle:[NSString stringWithFormat:@"0/%@继续",@([BYImageManager manager].maxPhotoCount)] forState:UIControlStateNormal];
+    [self.rightButton setTitle:[NSString stringWithFormat:@"10/10继续"] forState:UIControlStateNormal];
     [self.rightButton setTitleColor:RGB(0x00aaf7) forState:UIControlStateNormal];
     self.rightButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
     [self.rightButton sizeToFit];
+    [self.rightButton setTitle:[NSString stringWithFormat:@"0/%@继续",@([BYImageManager manager].maxPhotoCount)] forState:UIControlStateNormal];
     [self.rightButton addTarget:self action:@selector(didClickedRightButton:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightButton];
 }
@@ -73,7 +74,6 @@
     [super viewWillAppear:animated];
     NSString *title = [NSString stringWithFormat:@"%@/%@继续",@([BYImageManager manager].selectedAssetsCount),@([BYImageManager manager].maxPhotoCount)];
     [self.rightButton setTitle:title forState:UIControlStateNormal];
-    [self.rightButton sizeToFit];
 }
 
 - (void)didReceiveMemoryWarning {

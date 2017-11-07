@@ -324,14 +324,15 @@
     [[self class] fetchDefaultImageInAsset:asset fixOrientation:YES completion:completion];
 }
 ///获得照片本身
-+ (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset imageWidth:(CGFloat)width completion:(BYImageFetchBlock)completion
++ (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset pixelWidth:(CGFloat)width completion:(BYImageFetchBlock)completion
 {
-    return [[self class] fetchImageInAsset:asset imageWidth:width fixOrientation:YES completion:completion];
+    return [[self class] fetchImageInAsset:asset pixelWidth:width fixOrientation:YES completion:completion];
 }
 
 + (PHImageRequestID)fetchFullScreenImageInAsset:(PHAsset *)asset completion:(BYImageFetchBlock)completion
 {
-    return [[self class] fetchImageInAsset:asset imageWidth:[UIScreen mainScreen].bounds.size.width completion:completion];
+    CGFloat scale = [UIScreen mainScreen].scale;
+    return [[self class] fetchImageInAsset:asset pixelWidth:[UIScreen mainScreen].bounds.size.width*scale completion:completion];
 }
 
 + (void)fetchDefaultImageInAsset:(PHAsset *)asset completion:(BYImageFetchBlock)completion
@@ -359,11 +360,11 @@
     }];
 }
 
-+ (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset imageWidth:(CGFloat)width fixOrientation:(BOOL)fix completion:(BYImageFetchBlock)completion
++ (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset pixelWidth:(CGFloat)width fixOrientation:(BOOL)fix completion:(BYImageFetchBlock)completion
 {
     CGSize imageSize;
     CGFloat aspectRatio = asset.pixelWidth / (CGFloat)asset.pixelHeight;
-    CGFloat pixelWidth = width * [UIScreen mainScreen].scale;
+    CGFloat pixelWidth = width;
     CGFloat pixelHeight = pixelWidth / aspectRatio;
     imageSize = CGSizeMake(pixelWidth, pixelHeight);
 //    synchronous：指定请求是否同步执行。
@@ -409,17 +410,61 @@
     return imageRequestID;
 }
 
++ (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset pixelSize:(CGSize)size completion:(BYImageFetchBlock)completion
+{
+    //    synchronous：指定请求是否同步执行。
+    //    resizeMode：对请求的图像怎样缩放。有三种选择：None，不缩放；Fast，尽快地提供接近或稍微大于要求的尺寸；Exact，精准提供要求的尺寸。
+    //    deliveryMode：图像质量。有三种值：Opportunistic，在速度与质量中均衡；HighQualityFormat，不管花费多长时间，提供高质量图像；FastFormat，以最快速度提供好的质量。
+    //    这个属性只有在 synchronous 为 true 时有效。
+    //    normalizedCropRect：用于对原始尺寸的图像进行裁剪，基于比例坐标。只在 resizeMode 为 Exact 时有效。
+    //   要返回一个指定尺寸的图像需要避免两层陷阱：一定要指定 options 参数，resizeMode 不能为 None。
+    PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
+    option.resizeMode = PHImageRequestOptionsResizeModeFast;
+    //加上这局句话后，图片会不清晰
+    //    option.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
+    //    option.synchronous = YES;
+    PHImageRequestID imageRequestID = [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:size contentMode:PHImageContentModeAspectFill options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info)
+    {
+        BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey]);
+        // 下面的判断方式会造成稍微的卡顿
+        //        BOOL downloadFinined = ![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey] && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue];
+        if (downloadFinined && result) {
+            result = [[self class] fixOrientation:result];
+            if (completion) completion(result,info,[[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
+        }
+        //        // Download image from iCloud / 从iCloud下载图片
+        //        if ([info objectForKey:PHImageResultIsInCloudKey] && !result) {
+        //            PHImageRequestOptions *option = [[PHImageRequestOptions alloc]init];
+        //            option.networkAccessAllowed = YES;
+        //            option.resizeMode = PHImageRequestOptionsResizeModeFast;
+        //            [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+        //                UIImage *resultImage = [UIImage imageWithData:imageData scale:0.1];
+        //                resultImage = [[self class] scaleImage:resultImage toSize:imageSize];
+        //                if (resultImage) {
+        //                    if (fix) {
+        //                        resultImage = [[self class] fixOrientation:resultImage];
+        //                    }
+        //                    if (completion){
+        //                        completion(resultImage,info,[[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
+        //                    }
+        //                }
+        //            }];
+        //        }
+    }];
+    return imageRequestID;
+}
 
 + (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset networkAllowed:(BOOL)networkAllowed progress:(BYImageLoadProgress)progressHandler completion:(BYImageFetchBlock)completion
 {
-    return [[self class] fetchImageInAsset:asset imageWidth:[UIScreen mainScreen].bounds.size.width networkAllowed:networkAllowed progress:progressHandler completion:completion];
+    CGFloat scale = [UIScreen mainScreen].scale;
+    return [[self class] fetchImageInAsset:asset pixelWidth:[UIScreen mainScreen].bounds.size.width*scale networkAllowed:networkAllowed progress:progressHandler completion:completion];
 }
 
-+ (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset imageWidth:(CGFloat)width networkAllowed:(BOOL)networkAllowed progress:(BYImageLoadProgress)progressHandler completion:(BYImageFetchBlock)completion
++ (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset pixelWidth:(CGFloat)width networkAllowed:(BOOL)networkAllowed progress:(BYImageLoadProgress)progressHandler completion:(BYImageFetchBlock)completion
 {
     CGSize imageSize;
     CGFloat aspectRatio = asset.pixelWidth / (CGFloat)asset.pixelHeight;
-    CGFloat pixelWidth = width * [UIScreen mainScreen].scale;
+    CGFloat pixelWidth = width;
     CGFloat pixelHeight = pixelWidth / aspectRatio;
     imageSize = CGSizeMake(pixelWidth, pixelHeight);
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
@@ -459,8 +504,9 @@
 ///获取封面图
 + (void)fetchAlbumCover:(BYAlbum *)album completion:(void (^)(UIImage *image))completion
 {
+    CGFloat scale = [UIScreen mainScreen].scale;
     PHAsset *asset = [album.fetchResult firstObject];
-    [[self class] fetchImageInAsset:asset imageWidth:80 completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
+    [[self class] fetchImageInAsset:asset pixelWidth:80*scale completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
         if (completion) {
             completion(image);
         }

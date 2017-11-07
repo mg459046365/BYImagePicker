@@ -108,7 +108,8 @@
 
 - (void)fetchImageWidth:(CGFloat)width complete:(void(^)(UIImage *image))fetchBlock
 {
-    PHImageRequestID imageRequestID = [BYImageManager fetchImageInAsset:self.asset imageWidth:width completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded)
+    CGFloat scale = [UIScreen mainScreen].scale;
+    PHImageRequestID imageRequestID = [BYImageManager fetchImageInAsset:self.asset pixelWidth:width*scale completion:^(UIImage *image, NSDictionary *info, BOOL isDegraded)
     {
         fetchBlock(image);
     }];

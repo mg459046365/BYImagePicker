@@ -65,10 +65,12 @@ typedef void(^BYImageLoadProgress)(CGFloat progress, NSError *error, BOOL *stop,
 + (void)fetchDefaultImageInAsset:(PHAsset *)asset completion:(BYImageFetchBlock)completion;
 + (void)fetchDefaultImageInAsset:(PHAsset *)asset fixOrientation:(BOOL)fix completion:(BYImageFetchBlock)completion;
 + (PHImageRequestID)fetchFullScreenImageInAsset:(PHAsset *)asset completion:(BYImageFetchBlock)completion;
-+ (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset imageWidth:(CGFloat)width completion:(BYImageFetchBlock)completion;
-+ (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset imageWidth:(CGFloat)width fixOrientation:(BOOL)fix completion:(BYImageFetchBlock)completion;
++ (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset pixelWidth:(CGFloat)width completion:(BYImageFetchBlock)completion;
++ (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset pixelWidth:(CGFloat)width fixOrientation:(BOOL)fix completion:(BYImageFetchBlock)completion;
++ (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset pixelSize:(CGSize)size completion:(BYImageFetchBlock)completion;
+
 + (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset networkAllowed:(BOOL)networkAllowed progress:(BYImageLoadProgress)progressHandler completion:(BYImageFetchBlock)completion;
-+ (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset imageWidth:(CGFloat)width networkAllowed:(BOOL)networkAllowed progress:(BYImageLoadProgress)progressHandler completion:(BYImageFetchBlock)completion;
++ (PHImageRequestID)fetchImageInAsset:(PHAsset *)asset pixelWidth:(CGFloat)width networkAllowed:(BOOL)networkAllowed progress:(BYImageLoadProgress)progressHandler completion:(BYImageFetchBlock)completion;
 
 + (void)fetchAlbumCover:(BYAlbum *)album completion:(void (^)(UIImage *image))completion;
 /// 保存照片

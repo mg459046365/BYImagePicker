@@ -107,6 +107,15 @@
 // 打开相机拍照
 - (void)takePhoto
 {
+    BYImagePickerController *bypicker = (BYImagePickerController *)self.navigationController;
+    [bypicker takephoto];
+    return;
+    if ([BYImageManager manager].selectedAssetsCount >= [BYImageManager manager].maxPhotoCount) {
+        if (bypicker.pickerDelegate && [bypicker.pickerDelegate respondsToSelector:@selector(by_imagePickerControllerBeyondMaximum:)]) {
+            [bypicker.pickerDelegate by_imagePickerControllerBeyondMaximum:bypicker];
+        }
+        return;
+    }
     UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypeCamera;
     if ([UIImagePickerController isSourceTypeAvailable: sourceType]) {
         UIImagePickerController *picker = [[UIImagePickerController alloc] init];
@@ -124,17 +133,48 @@
 // 当选择一张图片后进入这里
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
-    // 当选择的类型是图片
-    if ([type isEqualToString:@"public.image"]) {
+//    UIKIT_EXTERN NSString *const UIImagePickerControllerMediaType;      //指定用户选择的媒体类型
+//    UIKIT_EXTERN NSString *const UIImagePickerControllerOriginalImage;  // 原始图片
+//    UIKIT_EXTERN NSString *const UIImagePickerControllerEditedImage;    // 修改后的图片
+//    UIKIT_EXTERN NSString *const UIImagePickerControllerCropRect;       // 裁剪尺寸
+//    UIKIT_EXTERN NSString *const UIImagePickerControllerMediaURL;       // 媒体的URL
+//    UIKIT_EXTERN NSString *const UIImagePickerControllerReferenceURL        NS_AVAILABLE_IOS(4_1);  // 原件的URL
+//    UIKIT_EXTERN NSString *const UIImagePickerControllerMediaMetadata //当数据来源是相机的时候获取到的静态图像元数据，可以使用phtoho框架进行处理
+    
+    UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
+    // 保存相片到相机胶卷
+    NSError *error = nil;
+    __block PHObjectPlaceholder *createdAsset = nil;
+    [[PHPhotoLibrary sharedPhotoLibrary] performChangesAndWait:^{
+        createdAsset = [PHAssetCreationRequest creationRequestForAssetFromImage:image].placeholderForCreatedAsset;
+    } error:&error];
+    
+    if (error) {
         [picker dismissViewControllerAnimated:YES completion:nil];
-//        UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        return;
     }
+    PHFetchResult *result = [PHAsset fetchAssetsWithLocalIdentifiers:@[createdAsset.localIdentifier] options:nil];
+    if (!result || result.count == 0) {
+        [picker dismissViewControllerAnimated:YES completion:nil];
+        return;
+    }
+    PHAsset *asset = result.firstObject;
+    BYAsset *byasset = [BYAsset modelWithAsset:asset];
+    [[BYImageManager manager].selectedAssets addObject:byasset];
+    
+    BYImagePickerController *bypicker = (BYImagePickerController *)self.parentViewController.navigationController;
+    if (bypicker.pickerDelegate && [bypicker.pickerDelegate respondsToSelector:@selector(by_imagePickerController:didFinishPickedAssets:)])
+    {
+        [bypicker.pickerDelegate by_imagePickerController:bypicker didFinishPickedAssets:[BYImageManager manager].selectedAssets];
+    }
+    [[BYImageManager manager] clear];
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    [bypicker dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    [picker dismissViewControllerAnimated:NO completion:nil];
 }
 
 

@@ -83,15 +83,20 @@
 - (void)didClickedRightButton:(id)sender
 {
     BYImagePickerController *picker = (BYImagePickerController *)self.navigationController;
-    if ([BYImageManager manager].selectedAssets.count == 0) {
-        if (picker.pickerDelegate && [picker.pickerDelegate respondsToSelector:@selector(by_imagePickerController:didFinishPickedAssets:)]) {
-            [picker.pickerDelegate by_imagePickerController:picker didFinishPickedAssets:[BYImageManager manager].selectedAssets];
-        }
-        [[BYImageManager manager] clear];
-        [picker dismissViewControllerAnimated:YES completion:nil];
-    }else{
-        [self fetchOriginPhotos];
+    if (picker.pickerDelegate && [picker.pickerDelegate respondsToSelector:@selector(by_imagePickerController:didFinishPickedAssets:)]) {
+        [picker.pickerDelegate by_imagePickerController:picker didFinishPickedAssets:[BYImageManager manager].selectedAssets];
     }
+    [[BYImageManager manager] clear];
+    [picker dismissViewControllerAnimated:YES completion:nil];
+//    if ([BYImageManager manager].selectedAssets.count == 0) {
+//        if (picker.pickerDelegate && [picker.pickerDelegate respondsToSelector:@selector(by_imagePickerController:didFinishPickedAssets:)]) {
+//            [picker.pickerDelegate by_imagePickerController:picker didFinishPickedAssets:[BYImageManager manager].selectedAssets];
+//        }
+//        [[BYImageManager manager] clear];
+//        [picker dismissViewControllerAnimated:YES completion:nil];
+//    }else{
+//        [self fetchOriginPhotos];
+//    }
 }
 
 - (void)fetchOriginPhotos

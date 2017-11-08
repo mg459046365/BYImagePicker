@@ -108,8 +108,6 @@
 - (void)takePhoto
 {
     BYImagePickerController *bypicker = (BYImagePickerController *)self.navigationController;
-    [bypicker takephoto];
-    return;
     if ([BYImageManager manager].selectedAssetsCount >= [BYImageManager manager].maxPhotoCount) {
         if (bypicker.pickerDelegate && [bypicker.pickerDelegate respondsToSelector:@selector(by_imagePickerControllerBeyondMaximum:)]) {
             [bypicker.pickerDelegate by_imagePickerControllerBeyondMaximum:bypicker];

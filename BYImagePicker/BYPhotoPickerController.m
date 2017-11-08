@@ -166,8 +166,9 @@
         [bypicker.pickerDelegate by_imagePickerController:bypicker didFinishPickedAssets:[BYImageManager manager].selectedAssets];
     }
     [[BYImageManager manager] clear];
-    [picker dismissViewControllerAnimated:YES completion:nil];
-    [bypicker dismissViewControllerAnimated:NO completion:nil];
+    [picker dismissViewControllerAnimated:YES completion:^{
+        [bypicker dismissViewControllerAnimated:NO completion:nil];
+    }];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
